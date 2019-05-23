@@ -2,6 +2,7 @@
 *.log
 *.gz
 !.mvn/wrapper/maven-wrapper.jar
+*.var
 
 ### STS ###
 .apt_generated
