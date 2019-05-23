@@ -17,8 +17,8 @@ public class DebitService {
 
   private final DebitRepository debitRepository;
 
-  public UUID create(DebitRequest paymentDebitRequest) {
-    DebitEntity debitEntity = debitRepository.save(paymentDebitRequest.toEntity());
+  public UUID create(DebitRequest debitRequest) {
+    DebitEntity debitEntity = debitRepository.save(debitRequest.toEntity());
     return debitEntity.getId();
   }
 
@@ -31,5 +31,8 @@ public class DebitService {
     return debitRepository.findByClientId(clientId).stream().map(DebitResponse::valueOf).collect(Collectors.toList());
   }
 
+  public void deleteDebit(UUID id) {
+    debitRepository.deleteById(id);
+  }
 
 }

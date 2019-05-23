@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.UUID;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,7 +21,7 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/debits")
+@RequestMapping("/clients/{clientId}/debits")
 public class DebitController {
 
   private final DebitService debitService;
@@ -44,5 +45,11 @@ public class DebitController {
       return ResponseEntity.noContent().build();
     }
     return ResponseEntity.ok(debitResponse);
+  }
+  
+  @DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+  public ResponseEntity<List<DebitResponse>> deleteDebit(@PathVariable String id) {
+    debitService.deleteDebit(UUID.fromString(id));
+    return ResponseEntity.noContent().build();
   }
 }
