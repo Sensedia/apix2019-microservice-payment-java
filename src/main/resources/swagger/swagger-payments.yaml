@@ -1,0 +1,238 @@
+swagger: '2.0'
+info:
+  version: '1.0.0'
+  title: "Payments API"
+host: 'sensedia.com'
+basePath: "/payments/v1"
+tags:
+  - name: Clients
+    description: "Operations about clients."
+  
+schemes:
+  - https
+paths:
+  '/clients':
+    post:
+      tags:
+        - Clients
+      summary: "New client"
+      description: "Client creation."
+      parameters:
+        - name: client
+          in: body
+          required: true
+          description: "Client's information"
+          schema:
+            $ref: '#/definitions/ClientRequest'
+      produces:
+        - application/json
+      consumes:
+        - application/json
+      responses:
+        201:
+          description: "Created"
+          headers:
+            Location:
+              type: string
+              description: Location to get client information
+        412:
+          description: Precondition Failed
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Error'
+        422:
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/Error'
+        500:
+          description: Server error
+    get:
+      tags: 
+        - Clients
+      summary: "Get all clients"
+      description: "Get all clients"
+      parameters:
+        - name: document
+          in: query
+          type: string
+          description: "Client's document"
+        - name: email
+          in: query
+          type: string
+          description: "Client's email"
+        - name: phone
+          in: query
+          type: string
+          description: "Client's phone"
+      responses:
+        200:
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/ClientResponse'
+        204:
+          description: No content
+        500:
+          description: Server error
+  '/clients/{id}':
+    get:
+      tags:
+        - Clients
+      summary: "Find client by id"
+      description: "Bring one client by id"
+      parameters: 
+        - name: id
+          in: path
+          required: true
+          type: integer
+          description: "Identification of client"
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/ClientResponse'
+        404:
+          description: Not found
+        500:
+          description: Server error
+    put:
+      tags:
+        - Clients
+      summary: "Update client by id"
+      description: "Update client by id"
+      parameters: 
+        - name: id
+          in: path
+          required: true
+          type: integer
+          description: "Identification of client"
+        - name: client
+          in: body
+          required: false
+          description: "Client's information to update"
+          schema:
+            $ref: '#/definitions/ClientRequest'
+      responses:
+        204:
+          description: No content
+        404:
+          description: Not found
+        412:
+          description: Precondition Failed
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Error'
+        422:
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/Error'
+        500:
+          description: Server error
+    patch:
+      tags: 
+        - Clients
+      summary: "Partial update on client's information by id" 
+      description: "Partial update on client's information by id"
+      parameters: 
+        - name: id
+          in: path
+          required: true
+          type: integer
+          description: "Identification of client"
+        - name: client
+          in: body
+          required: false
+          description: "Client's information to partial update"
+          schema:
+            $ref: "#/definitions/OptionalClientRequest"
+      responses:
+        204:
+          description: No content
+        404:
+          description: Not found
+        412:
+          description: Precondition Failed
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Error'
+        422:
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/Error'
+        500: 
+          description: Server error
+    delete:
+      tags:
+        - Clients
+      summary: "Delete client by id"
+      description: "Delete client by id"
+      parameters: 
+        - name: id
+          in: path
+          required: true
+          type: integer
+          description: "Identification of client"
+      responses:
+        204:
+          description: No content
+        404:
+          description: Not found
+        500:
+          description: Server error
+definitions:
+  ClientRequest:
+    properties: 
+      document:
+        type: "number"
+      name: 
+        type: "string"
+      email: 
+        type: "string"
+      phone: 
+        type: "boolean"
+      payday: 
+        type: "number"
+    required:
+      - document
+      - name
+      - email
+      - phone
+      - payday
+  OptionalClientRequest:
+    properties: 
+      document:
+        type: "number"
+      name: 
+        type: "string"
+      email: 
+        type: "string"
+      phone: 
+        type: "boolean"
+      payday: 
+        type: "number"
+  ClientResponse:
+    type: "object"
+    properties: 
+      document: 
+        type: "number"
+      name: 
+        type: "string"
+      email: 
+        type: "string"
+      phone: 
+        type: "boolean"
+      payday: 
+        type: "number"
+  Error:
+    type: object
+    properties:
+      code:
+        type: string
+        description: Error code
+      message:
+        type: string
+        description: Error message
