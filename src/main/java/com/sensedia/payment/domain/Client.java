@@ -25,8 +25,11 @@ public class Client {
 
 	}
 
-	public Client(String id, String document, String name, String email, String phone, Integer payday) {
+	public Client(String id) {
 		this.id = id;
+	}
+
+	public Client(String document, String name, String email, String phone, Integer payday) {
 		this.document = document;
 		this.name = name;
 		this.email = email;
