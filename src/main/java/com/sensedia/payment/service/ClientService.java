@@ -22,13 +22,11 @@ public class ClientService {
 	private ClientRepository clientRepository;
 
 	/**
-	 * Method to get all clients.
-	 * 
+	 * Get all clients. Optional filters: document, email, phone
 	 * @param document
 	 * @param email
 	 * @param phone
 	 * @return
-	 * @throws Exception
 	 */
 	public List<ClientResponse> retrieveAllClients(String document, String email, String phone) {
 		Client client = new Client(document, email, phone);
@@ -38,12 +36,9 @@ public class ClientService {
 	}
 
 	/**
-	 * Method to get one client by id.
-	 * 
+	 * Get client by id
 	 * @param id
 	 * @return
-	 * @throws Exception
-	 * @throws NotFoundException
 	 */
 	public ClientResponse retrieveClientById(String id) {
 		return clientRepository.findById(id)
@@ -52,11 +47,9 @@ public class ClientService {
 	}
 
 	/**
-	 * Method to partial update of client's information.
-	 * 
+	 * Partial update on client by id
+	 * @param client
 	 * @param id
-	 * @return
-	 * @throws NotFoundException
 	 */
 	public void partialUpdateClientById(ClientRequest client, String id) {
 		
@@ -78,7 +71,12 @@ public class ClientService {
 		}
 		clientRepository.save(clientUpdate);
 	}
-
+	
+	/**
+	 * Update client information
+	 * @param client
+	 * @param id
+	 */
 	public void updateClientInfo(ClientRequest client, String id) {
 		Client clientUpdate = clientRepository.findById(id).orElseThrow(NotFoundException::new);
 		clientUpdate.setDocument(client.getDocument());
@@ -90,11 +88,9 @@ public class ClientService {
 	}
 
 	/**
-	 * Method to save the client's information.
-	 * 
-	 * @param client
+	 * Save client information
+	 * @param request
 	 * @return
-	 * @throws NotFoundException
 	 */
 	public String saveClientInfo(ClientRequest request) {
 		Client client = clientRepository.save(ClientConverter.toClient(request));
@@ -102,8 +98,7 @@ public class ClientService {
 	}
 
 	/**
-	 * Method to delete one client by id.
-	 * 
+	 * Delete client by id
 	 * @param id
 	 */
 	public void deleteClientById(String id) {
