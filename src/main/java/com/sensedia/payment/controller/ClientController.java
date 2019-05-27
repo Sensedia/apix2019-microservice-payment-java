@@ -30,9 +30,10 @@ public class ClientController {
 	private ClientService clientService;
 
 	/**
-	 * Get all clients.
-	 * 
-	 * @param request
+	 * Get all clients. optional filters: document, email, phone
+	 * @param document
+	 * @param email
+	 * @param phone
 	 * @return
 	 */
 	@GetMapping("/clients")
@@ -49,11 +50,9 @@ public class ClientController {
 	}
 
 	/**
-	 * Get one client by id
-	 * 
+	 * Get client by id
 	 * @param id
 	 * @return
-	 * @throws Exception
 	 */
 	@GetMapping("/clients/{id}")
 	public ResponseEntity<ClientResponse> retrieveClientById(@PathVariable String id) {
@@ -64,10 +63,9 @@ public class ClientController {
 
 	/**
 	 * Create a new client
-	 * 
 	 * @param client
+	 * @param uriBuilder
 	 * @return
-	 * @throws NotFoundException
 	 */
 	@PostMapping("/clients")
 	public ResponseEntity<Void> createNewClient(@RequestBody ClientRequest client, UriComponentsBuilder uriBuilder) {
@@ -80,9 +78,8 @@ public class ClientController {
 	}
 
 	/**
-	 * Update client's info by id.
-	 * 
-	 * @param client
+	 * Update on client's information
+	 * @param updateClient
 	 * @param id
 	 * @return
 	 */
@@ -96,12 +93,10 @@ public class ClientController {
 	}
 
 	/**
-	 * Partial update of client by id
-	 * 
+	 *  Partial update on client's information
 	 * @param partialUpdate
 	 * @param id
 	 * @return
-	 * @throws Exception
 	 */
 	@PatchMapping("/clients/{id}")
 	public ResponseEntity<Void> partialUpdateClient(@RequestBody ClientRequest partialUpdate, @PathVariable String id) {
@@ -111,12 +106,11 @@ public class ClientController {
 	}
 
 	/**
-	 * Delete a client by id
-	 * 
+	 * Delete client by id
 	 * @param id
 	 */
 	@DeleteMapping("/clients/{id}")
-	public void deleteStudent(@PathVariable String id) {
+	public void deleteClient(@PathVariable String id) {
 		clientService.deleteClientById(id);
 	}
 }
