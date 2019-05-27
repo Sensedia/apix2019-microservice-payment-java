@@ -1,13 +1,14 @@
 swagger: '2.0'
 info:
   version: '1.0.0'
-  title: "Payments API"
+  title: "Payment API"
 host: 'sensedia.com'
-basePath: "/payments/v1"
+basePath: "/payment/v1"
 tags:
   - name: Clients
     description: "Operations about clients."
-  
+  - name: Payments
+    description: "Operations about payments."
 schemes:
   - https
 paths:
@@ -40,7 +41,7 @@ paths:
           schema:
             type: array
             items:
-              $ref: '#/definitions/Error'
+              $ref: '#/definitions/Error'  
         422:
           description: Unprocessable Entity
           schema:
@@ -76,14 +77,14 @@ paths:
           description: No content
         500:
           description: Server error
-  '/clients/{id}':
+  '/clients/{clientId}':
     get:
       tags:
         - Clients
       summary: "Find client by id"
       description: "Bring one client by id"
       parameters: 
-        - name: id
+        - name: clientId
           in: path
           required: true
           type: integer
@@ -103,7 +104,7 @@ paths:
       summary: "Update client by id"
       description: "Update client by id"
       parameters: 
-        - name: id
+        - name: clientId
           in: path
           required: true
           type: integer
@@ -124,7 +125,7 @@ paths:
           schema:
             type: array
             items:
-              $ref: '#/definitions/Error'
+              $ref: '#/definitions/Error'  
         422:
           description: Unprocessable Entity
           schema:
@@ -137,7 +138,7 @@ paths:
       summary: "Partial update on client's information by id" 
       description: "Partial update on client's information by id"
       parameters: 
-        - name: id
+        - name: clientId
           in: path
           required: true
           type: integer
@@ -153,16 +154,12 @@ paths:
           description: No content
         404:
           description: Not found
-        412:
-          description: Precondition Failed
+        422:
+          description: Unprocessable Entity
           schema:
             type: array
             items:
               $ref: '#/definitions/Error'
-        422:
-          description: Unprocessable Entity
-          schema:
-            $ref: '#/definitions/Error'
         500: 
           description: Server error
     delete:
@@ -171,7 +168,7 @@ paths:
       summary: "Delete client by id"
       description: "Delete client by id"
       parameters: 
-        - name: id
+        - name: clientId
           in: path
           required: true
           type: integer
@@ -183,19 +180,144 @@ paths:
           description: Not found
         500:
           description: Server error
+  '/clients/{clientId}/debits':
+    post:
+      tags:
+        - Clients
+      summary: "New debit"
+      description: "Debit creation."
+      parameters:
+        - name: clientId
+          in: path
+          type: string
+          required: true
+          description: "Identification of client"
+        - name: debit
+          in: body
+          required: true
+          description: "Debit's information"
+          schema:
+            $ref: '#/definitions/DebitRequest'
+      consumes:
+        - application/json
+      responses:
+        201:
+          description: "Created"
+          headers:
+            Location:
+              type: string
+              description: Location to get debit information
+        404:
+          description: Not Found
+        412:
+          description: Precondition Failed
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Error'  
+        422:
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/Error'
+        500:
+          description: Server error
+    get:
+      tags:
+        - Clients
+      summary: "Find client debits"
+      description: "Client debits"
+      parameters: 
+        - name: clientId
+          in: path
+          type: string
+          required: true
+          description: "Identification of client"
+      produces:
+        - application/json
+      responses:
+        200:
+          description: Ok
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/DebitResponse'
+        204:
+          description: No content
+        404:
+          description: Not found
+        500:
+          description: Server error
+  '/clients/{clientId}/debits/{debitId}':
+    get:
+      tags:
+        - Clients
+      summary: "Find client debit"
+      description: "Client debit"
+      parameters: 
+        - name: clientId
+          in: path
+          type: string
+          required: true
+          description: "Identification of client"
+        - name: debitId
+          in: path
+          type: string
+          required: true
+          description: "Identification of debit"
+      produces:
+        - application/json
+      responses:
+        200:
+          description: Ok
+          schema:
+            $ref: '#/definitions/DebitResponse'
+        404:
+          description: Not found
+        500:
+          description: Server error
+  '/payments':
+    post:
+      tags:
+        - Payments
+      summary: "New payment"
+      description: "Payment"
+      parameters:
+        - name: payment
+          in: body
+          required: true
+          description: "Identification of client"
+          schema:
+            $ref: '#/definitions/PaymentRequest'
+      consumes:
+        - application/json
+      responses:
+        201:
+          description: "Created"
+        412:
+          description: Precondition Failed
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Error'  
+        422:
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/Error'
+        500:
+          description: Server error
 definitions:
   ClientRequest:
     properties: 
       document:
-        type: "number"
+        type: number
       name: 
-        type: "string"
+        type: string
       email: 
-        type: "string"
+        type: string
       phone: 
-        type: "boolean"
+        type: boolean
       payday: 
-        type: "number"
+        type: number
     required:
       - document
       - name
@@ -205,28 +327,61 @@ definitions:
   OptionalClientRequest:
     properties: 
       document:
-        type: "number"
+        type: number
       name: 
-        type: "string"
+        type: string
       email: 
-        type: "string"
+        type: string
       phone: 
-        type: "boolean"
+        type: boolean
       payday: 
-        type: "number"
+        type: number
   ClientResponse:
-    type: "object"
+    type: object
     properties: 
       document: 
-        type: "number"
+        type: number
       name: 
-        type: "string"
+        type: string
       email: 
-        type: "string"
+        type: string
       phone: 
-        type: "boolean"
+        type: boolean
       payday: 
-        type: "number"
+        type: number
+  DebitRequest:
+    properties:
+      productId:
+        type: string
+        example: "2c8c5d94-4261-4869-ac81-240a437fbc0f"
+      value:
+        type: number
+        example: 79.99
+      installmentsNumber:
+        type: number
+        example: 1
+  DebitResponse:
+    properties:
+      id:
+        type: string
+        example: "d2c4d413-c0e6-4125-b201-7b0cdb447020"
+      productId:
+        type: string
+        example: "2c8c5d94-4261-4869-ac81-240a437fbc0f"
+      value:
+        type: number
+        example: 79.99
+      installmentsNumber:
+        type: number
+        example: 2
+  PaymentRequest:
+    properties:
+      debitId:
+        type: string
+        example: "c2caee39-e49c-4233-b88f-a2450c7b7a02"
+      installments:
+        type: number
+        example: 1
   Error:
     type: object
     properties:

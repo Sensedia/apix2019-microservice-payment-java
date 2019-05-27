@@ -1,4 +1,4 @@
-package com.sensedia.payment.controllers;
+package com.sensedia.payment.controller;
 
 import java.util.List;
 import java.util.UUID;
