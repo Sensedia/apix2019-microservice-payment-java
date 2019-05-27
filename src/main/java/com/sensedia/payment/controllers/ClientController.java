@@ -24,7 +24,6 @@ import com.sensedia.payment.services.ClientService;
 import com.sensedia.payment.services.DebitService;
 import com.sensedia.payment.validator.ClientValidator;
 import com.sensedia.payment.validator.UuidValidator;
-import javassist.NotFoundException;
 import lombok.RequiredArgsConstructor;
 
 @RestController
