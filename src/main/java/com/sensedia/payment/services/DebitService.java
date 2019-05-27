@@ -4,7 +4,8 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
-import com.sensedia.payment.domain.ClientEntity;
+
+import com.sensedia.payment.entity.ClientEntity;
 import com.sensedia.payment.entity.DebitEntity;
 import com.sensedia.payment.exceptions.EntityNotFoundException;
 import com.sensedia.payment.exceptions.ErrorMessage;
@@ -22,9 +23,9 @@ public class DebitService {
   private final DebitRepository debitRepository;
   private final ClientService clientService;
 
-  public UUID create(UUID clientUUID, DebitRequest paymentDebitRequest) {
+  public UUID create(UUID clientUUID, DebitRequest debitRequest) {
     ClientEntity clientEntity = clientService.validateAndGetClientById(clientUUID);
-    DebitEntity debitEntity = debitRepository.save(paymentDebitRequest.toEntity(clientEntity));
+    DebitEntity debitEntity = debitRepository.save(debitRequest.toEntity(clientEntity));
     return debitEntity.getId();
   }
 

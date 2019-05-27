@@ -7,7 +7,7 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import com.sensedia.payment.converter.ClientConverter;
-import com.sensedia.payment.domain.ClientEntity;
+import com.sensedia.payment.entity.ClientEntity;
 import com.sensedia.payment.exceptions.EntityNotFoundException;
 import com.sensedia.payment.exceptions.ErrorMessage;
 import com.sensedia.payment.exceptions.MessageError;

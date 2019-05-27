@@ -1,4 +1,4 @@
-package com.sensedia.payment.domain;
+package com.sensedia.payment.entity;
 
 import java.util.List;
 import java.util.UUID;
@@ -12,7 +12,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
-import com.sensedia.payment.entity.DebitEntity;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

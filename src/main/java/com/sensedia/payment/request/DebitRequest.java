@@ -1,7 +1,8 @@
 package com.sensedia.payment.request;
 
 import java.math.BigDecimal;
-import com.sensedia.payment.domain.ClientEntity;
+
+import com.sensedia.payment.entity.ClientEntity;
 import com.sensedia.payment.entity.DebitEntity;
 import lombok.Data;
 
