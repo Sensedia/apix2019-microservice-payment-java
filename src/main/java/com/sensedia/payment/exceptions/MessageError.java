@@ -1,4 +1,4 @@
-package com.sensedia.payment.exception;
+package com.sensedia.payment.exceptions;
 
 import java.io.Serializable;
 
