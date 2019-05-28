@@ -3,10 +3,12 @@ package com.sensedia.payment.services;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
+
 import org.springframework.stereotype.Service;
 
 import com.sensedia.payment.entity.ClientEntity;
 import com.sensedia.payment.entity.DebitEntity;
+import com.sensedia.payment.entity.InstallmentEntity;
 import com.sensedia.payment.exceptions.EntityNotFoundException;
 import com.sensedia.payment.exceptions.ErrorMessage;
 import com.sensedia.payment.exceptions.MessageError;
@@ -14,6 +16,7 @@ import com.sensedia.payment.exceptions.UnprocessableEntityException;
 import com.sensedia.payment.repository.DebitRepository;
 import com.sensedia.payment.request.DebitRequest;
 import com.sensedia.payment.response.DebitResponse;
+
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -22,11 +25,14 @@ public class DebitService {
 
   private final DebitRepository debitRepository;
   private final ClientService clientService;
+  private final InstallmentService installmentService;
 
   public UUID create(UUID clientUUID, DebitRequest debitRequest) {
     ClientEntity clientEntity = clientService.validateAndGetClientById(clientUUID);
-    DebitEntity debitEntity = debitRepository.save(debitRequest.toEntity(clientEntity));
-    return debitEntity.getId();
+    DebitEntity debit = debitRequest.toEntity(clientEntity);
+    List<InstallmentEntity> installments = installmentService.generateInstallments(clientEntity.getPayday(), debitRequest.getInstallmentsNumber(), debitRequest.getValue(), debit);
+    debit.setInstallments(installments);
+    return debitRepository.save(debit).getId();
   }
 
   public DebitResponse findById(UUID clientUUID, UUID debitUUID) {

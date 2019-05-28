@@ -4,9 +4,14 @@ import java.math.BigDecimal;
 
 import com.sensedia.payment.entity.ClientEntity;
 import com.sensedia.payment.entity.DebitEntity;
+
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class DebitRequest {
 
   private String productId;
