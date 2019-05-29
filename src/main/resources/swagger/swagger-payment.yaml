@@ -366,6 +366,9 @@ definitions:
       installmentsNumber:
         type: number
         example: 1
+      antecipationDiscountPercentage:
+        type: number
+        example: 5
       installments:
         type: array
         items:
@@ -388,7 +391,7 @@ definitions:
       paidValue:
         type: number
         example: 15.19
-      discountPercentage:
+      appliedDiscountPercentage:
         type: number
         example: 5
   PaymentRequest:

@@ -23,6 +23,8 @@ public class DebitResponse {
 	private String productId;
 
 	private BigDecimal value;
+	
+	private Integer antecipationDiscountPercentage;
 
 	private Integer installmentsNumber;
   
@@ -31,6 +33,7 @@ public class DebitResponse {
 	public static DebitResponse valueOf(DebitEntity debitEntity) {
 		debitEntity.getInstallments().sort(Comparator.comparing(InstallmentEntity::getExpirationDate));
 		return DebitResponse.builder()
+				.antecipationDiscountPercentage(debitEntity.getDiscountPercentage())
 				.value(debitEntity.getValue())
 				.id(debitEntity.getId().toString())
 				.installmentsNumber(debitEntity.getInstallmentsNumber())
