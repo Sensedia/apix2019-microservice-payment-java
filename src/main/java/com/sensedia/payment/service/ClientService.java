@@ -1,20 +1,24 @@
-package com.sensedia.payment.services;
+package com.sensedia.payment.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
+
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
+
 import com.sensedia.payment.converter.ClientConverter;
 import com.sensedia.payment.entity.ClientEntity;
-import com.sensedia.payment.exceptions.EntityNotFoundException;
-import com.sensedia.payment.exceptions.ErrorMessage;
-import com.sensedia.payment.exceptions.MessageError;
-import com.sensedia.payment.exceptions.UnprocessableEntityException;
+import com.sensedia.payment.exception.EntityNotFoundException;
+import com.sensedia.payment.exception.ErrorMessage;
+import com.sensedia.payment.exception.MessageError;
+import com.sensedia.payment.exception.UnprocessableEntityException;
 import com.sensedia.payment.repository.ClientRepository;
 import com.sensedia.payment.request.ClientRequest;
 import com.sensedia.payment.response.ClientResponse;
+
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -32,8 +36,17 @@ public class ClientService {
    * @return
    * @throws Exception
    */
-  public List<ClientResponse> retrieveAllClients(String document, String email, String phone) {
-    return clientRepository.findAll().stream().map(ClientConverter::toClientResponse).collect(Collectors.toList());
+  public List<ClientResponse> retrieveAllClients(String document) {
+	  List<ClientEntity> clients = new ArrayList<>();
+	  if (StringUtils.isEmpty(document)) {
+		  clientRepository.findAll().forEach(clients::add);
+	  } else {
+		  clientRepository.findByDocument(document)
+		  		.ifPresent(clients::add);
+	  }
+    return clients.stream()
+    		.map(ClientConverter::toClientResponse)
+    		.collect(Collectors.toList());
   }
 
   /**
@@ -67,8 +80,8 @@ public class ClientService {
     if (!StringUtils.isEmpty(client.getPhone())) {
       clientUpdate.setPhone(client.getPhone());
     }
-    if (client.getPayday() != null) {
-      clientUpdate.setPayday(client.getPayday());
+    if (client.getExpirationDay() != null) {
+      clientUpdate.setExpirationDay(client.getExpirationDay());
     }
     if (!StringUtils.isEmpty(client.getName())) {
       clientUpdate.setName(client.getName());
@@ -81,7 +94,7 @@ public class ClientService {
     clientUpdate.setDocument(client.getDocument());
     clientUpdate.setEmail(client.getEmail());
     clientUpdate.setPhone(client.getPhone());
-    clientUpdate.setPayday(client.getPayday());
+    clientUpdate.setExpirationDay(client.getExpirationDay());
     clientUpdate.setName(client.getName());
     clientRepository.save(clientUpdate);
   }
@@ -113,7 +126,7 @@ public class ClientService {
   public ClientEntity validateAndGetClientById(UUID clientId) {
     Optional<ClientEntity> opClient = clientRepository.findById(clientId);
     if (!opClient.isPresent()) {
-      throw new UnprocessableEntityException(new MessageError(ErrorMessage.FIELD_VALUE_NOT_EXISTS, "Client " + clientId));
+      throw new UnprocessableEntityException(new MessageError(ErrorMessage.FIELD_VALUE_NOT_EXISTS, "Client", clientId));
     }
     return opClient.get();
   }

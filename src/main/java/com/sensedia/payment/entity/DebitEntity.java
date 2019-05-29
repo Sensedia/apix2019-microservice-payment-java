@@ -50,6 +50,9 @@ public class DebitEntity {
 	
 	@Column
 	private Integer installmentsNumber;
+	
+	@Column
+	private Integer discountPercentage;
 	  
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "debit")
 	private List<InstallmentEntity> installments;

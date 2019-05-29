@@ -3,9 +3,10 @@ package com.sensedia.payment.validator;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.util.StringUtils;
-import com.sensedia.payment.exceptions.ErrorMessage;
-import com.sensedia.payment.exceptions.MessageError;
-import com.sensedia.payment.exceptions.PreconditionFailedException;
+
+import com.sensedia.payment.exception.ErrorMessage;
+import com.sensedia.payment.exception.MessageError;
+import com.sensedia.payment.exception.PreconditionFailedException;
 import com.sensedia.payment.request.ClientRequest;
 
 public class ClientValidator {
@@ -34,9 +35,9 @@ public class ClientValidator {
 			errors.add(new MessageError(ErrorMessage.REQUIRED_FIELD, "phone"));
 		}
 
-		Integer payday = request.getPayday();
-		if (StringUtils.isEmpty(payday)) {
-			errors.add(new MessageError(ErrorMessage.REQUIRED_FIELD, "payday"));
+		Integer expirationDay = request.getExpirationDay();
+		if (StringUtils.isEmpty(expirationDay)) {
+			errors.add(new MessageError(ErrorMessage.REQUIRED_FIELD, "expirationDay"));
 		}
 		if (!errors.isEmpty()) {
 			throw new PreconditionFailedException(errors);

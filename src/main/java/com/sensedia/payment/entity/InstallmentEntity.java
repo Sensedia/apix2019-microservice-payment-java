@@ -2,6 +2,7 @@ package com.sensedia.payment.entity;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 import javax.persistence.Column;
@@ -18,7 +19,7 @@ import javax.persistence.Table;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
 
-import com.sensedia.payment.enumeration.DebitStatus;
+import com.sensedia.payment.enumeration.InstallmentStatus;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -49,9 +50,18 @@ public class InstallmentEntity {
 	
 	@Column
 	@Enumerated(EnumType.STRING)
-	private DebitStatus status;
+	private InstallmentStatus status;
 	
 	@Column
 	private LocalDate expirationDate;
+	
+	@Column
+	private LocalDateTime payday;
+	
+	@Column
+	private BigDecimal paidValue;
+	
+	@Column
+	private Integer appliedDiscount;
 
 }

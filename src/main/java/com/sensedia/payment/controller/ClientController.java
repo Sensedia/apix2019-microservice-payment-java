@@ -20,8 +20,8 @@ import com.sensedia.payment.request.ClientRequest;
 import com.sensedia.payment.request.DebitRequest;
 import com.sensedia.payment.response.ClientResponse;
 import com.sensedia.payment.response.DebitResponse;
-import com.sensedia.payment.services.ClientService;
-import com.sensedia.payment.services.DebitService;
+import com.sensedia.payment.service.ClientService;
+import com.sensedia.payment.service.DebitService;
 import com.sensedia.payment.validator.ClientValidator;
 import com.sensedia.payment.validator.UuidValidator;
 import lombok.RequiredArgsConstructor;
@@ -35,10 +35,8 @@ public class ClientController {
   private final DebitService debitService;
 
   @GetMapping
-  public ResponseEntity<List<ClientResponse>> retrieveAllClients(@RequestParam(name = "document", required = false) String document,
-      @RequestParam(name = "email", required = false) String email, @RequestParam(name = "phone", required = false) String phone) {
-
-    List<ClientResponse> clientList = clientService.retrieveAllClients(document, email, phone);
+  public ResponseEntity<List<ClientResponse>> retrieveAllClients(@RequestParam(name = "document", required = false) String document) {
+    List<ClientResponse> clientList = clientService.retrieveAllClients(document);
     if (clientList.isEmpty()) {
       return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }

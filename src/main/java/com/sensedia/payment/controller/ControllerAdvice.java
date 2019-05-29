@@ -6,11 +6,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
-import com.sensedia.payment.exceptions.EntityNotFoundException;
-import com.sensedia.payment.exceptions.ErrorMessage;
-import com.sensedia.payment.exceptions.MessageError;
-import com.sensedia.payment.exceptions.PreconditionFailedException;
-import com.sensedia.payment.exceptions.UnprocessableEntityException;
+
+import com.sensedia.payment.exception.EntityNotFoundException;
+import com.sensedia.payment.exception.ErrorMessage;
+import com.sensedia.payment.exception.MessageError;
+import com.sensedia.payment.exception.PreconditionFailedException;
+import com.sensedia.payment.exception.UnprocessableEntityException;
 
 import lombok.extern.slf4j.Slf4j;
 

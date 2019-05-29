@@ -58,14 +58,6 @@ paths:
           in: query
           type: string
           description: "Client's document"
-        - name: email
-          in: query
-          type: string
-          description: "Client's email"
-        - name: phone
-          in: query
-          type: string
-          description: "Client's phone"
       responses:
         200:
           description: OK
@@ -316,14 +308,14 @@ definitions:
         type: string
       phone: 
         type: boolean
-      payday: 
+      expirationDay: 
         type: number
     required:
       - document
       - name
       - email
       - phone
-      - payday
+      - expirationDay
   OptionalClientRequest:
     properties: 
       document:
@@ -334,7 +326,7 @@ definitions:
         type: string
       phone: 
         type: boolean
-      payday: 
+      expirationDay: 
         type: number
   ClientResponse:
     type: object
@@ -347,7 +339,7 @@ definitions:
         type: string
       phone: 
         type: boolean
-      payday: 
+      expirationDay: 
         type: number
   DebitRequest:
     properties:
@@ -373,7 +365,32 @@ definitions:
         example: 79.99
       installmentsNumber:
         type: number
-        example: 2
+        example: 1
+      installments:
+        type: array
+        items:
+          $ref: '#/definitions/InstallmentResponse'
+  InstallmentResponse:
+    properties:
+      value:
+        type: number
+        example: 15.99
+      status:
+        type: string
+        example: 'PAID'
+        enum: [PENDING, PAID]
+      expirationDate:
+        type: string
+        example: '2019-01-01'
+      payday:
+        type: string
+        example: '2019-01-01T10:04:57'
+      paidValue:
+        type: number
+        example: 15.19
+      discountPercentage:
+        type: number
+        example: 5
   PaymentRequest:
     properties:
       debitId:
@@ -382,6 +399,9 @@ definitions:
       installments:
         type: number
         example: 1
+      cardNumber:
+        type: string
+        example: '1111222233334444'
   Error:
     type: object
     properties:

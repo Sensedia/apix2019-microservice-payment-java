@@ -1,4 +1,4 @@
-package com.sensedia.payment.exceptions;
+package com.sensedia.payment.exception;
 
 import java.util.List;
 

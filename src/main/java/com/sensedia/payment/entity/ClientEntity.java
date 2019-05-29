@@ -46,7 +46,7 @@ public class ClientEntity {
   private String phone;
 
   @Column
-  private Integer payday;
+  private Integer expirationDay;
 
   @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "client")
   private List<DebitEntity> debits;

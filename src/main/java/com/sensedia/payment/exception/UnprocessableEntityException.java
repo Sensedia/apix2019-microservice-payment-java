@@ -1,4 +1,4 @@
-package com.sensedia.payment.exceptions;
+package com.sensedia.payment.exception;
 
 public class UnprocessableEntityException extends RuntimeException {
 

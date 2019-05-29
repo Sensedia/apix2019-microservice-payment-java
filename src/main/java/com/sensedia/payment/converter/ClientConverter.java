@@ -18,13 +18,24 @@ public class ClientConverter {
   }
 
   public static ClientResponse toClientResponse(ClientEntity client) {
-    return ClientResponse.builder().id(client.getId()).document(client.getDocument()).name(client.getName()).email(client.getEmail()).phone(client.getPhone())
-        .payday(client.getPayday()).build();
+    return ClientResponse.builder()
+    		.id(client.getId())
+    		.document(client.getDocument())
+    		.name(client.getName())
+    		.email(client.getEmail())
+    		.phone(client.getPhone())
+    		.expirationDay(client.getExpirationDay())
+    		.build();
   }
 
   public static ClientEntity toClient(ClientRequest client) {
-    return ClientEntity.builder().document(client.getDocument()).name(client.getName()).email(client.getEmail()).phone(client.getPhone())
-        .payday(client.getPayday()).build();
+    return ClientEntity.builder()
+    		.document(client.getDocument())
+    		.name(client.getName())
+    		.email(client.getEmail())
+    		.phone(client.getPhone())
+    		.expirationDay(client.getExpirationDay())
+    		.build();
 
   }
 }

@@ -3,9 +3,11 @@ package com.sensedia.payment.utils;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-import com.sensedia.payment.exceptions.ErrorMessage;
-import com.sensedia.payment.exceptions.MessageError;
-import com.sensedia.payment.exceptions.PreconditionFailedException;
+
+import com.sensedia.payment.exception.ErrorMessage;
+import com.sensedia.payment.exception.MessageError;
+import com.sensedia.payment.exception.PreconditionFailedException;
+
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 

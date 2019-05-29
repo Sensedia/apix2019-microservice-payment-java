@@ -1,6 +1,6 @@
 package com.sensedia.payment.enumeration;
 
-public enum DebitStatus {
+public enum InstallmentStatus {
 	
 	PENDING, PAID
 

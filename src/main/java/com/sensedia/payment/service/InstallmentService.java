@@ -1,4 +1,4 @@
-package com.sensedia.payment.services;
+package com.sensedia.payment.service;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.sensedia.payment.entity.DebitEntity;
 import com.sensedia.payment.entity.InstallmentEntity;
-import com.sensedia.payment.enumeration.DebitStatus;
+import com.sensedia.payment.enumeration.InstallmentStatus;
 
 import lombok.RequiredArgsConstructor;
 
@@ -28,14 +28,14 @@ public class InstallmentService {
 		installments.add(InstallmentEntity.builder()
 				.debit(debit)
 				.expirationDate(generateInstallmentDate(day, 0))
-				.status(DebitStatus.PENDING)
+				.status(InstallmentStatus.PENDING)
 				.value(firstInstallmentValue)
 				.build());
 		for (int i = 1; i < installmentsNumber; i++) {
 			installments.add(InstallmentEntity.builder()
 					.debit(debit)
 					.expirationDate(generateInstallmentDate(day, i))
-					.status(DebitStatus.PENDING)
+					.status(InstallmentStatus.PENDING)
 					.value(installmentValue)
 					.build());
 		}
