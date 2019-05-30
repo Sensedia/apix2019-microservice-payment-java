@@ -6,9 +6,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
-
+import com.sensedia.payment.exception.EntityAlreadyExistsException;
 import com.sensedia.payment.exception.EntityNotFoundException;
 import com.sensedia.payment.exception.ErrorMessage;
+import com.sensedia.payment.exception.InternalServerErrorException;
 import com.sensedia.payment.exception.MessageError;
 import com.sensedia.payment.exception.PreconditionFailedException;
 import com.sensedia.payment.exception.UnprocessableEntityException;
@@ -37,11 +38,23 @@ public class ControllerAdvice {
 	  log.error(ex.getMessage(), ex);
       return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(ex.getError());
   }
+  
+  @ExceptionHandler(EntityAlreadyExistsException.class)
+  protected ResponseEntity<MessageError> handleEntityAlreadyExistsException(EntityAlreadyExistsException ex) {
+      log.error(ex.getMessage(), ex);
+      return ResponseEntity.status(HttpStatus.CONFLICT).body(ex.getError());
+  }
 
   @ExceptionHandler(PreconditionFailedException.class)
   protected ResponseEntity<List<MessageError>> handlePreconditionFailedException(PreconditionFailedException ex) {
 	  log.error(ex.getMessage(), ex);
       return ResponseEntity.status(HttpStatus.PRECONDITION_FAILED).body(ex.getErrors());
+  }
+  
+  @ExceptionHandler(InternalServerErrorException.class)
+  protected ResponseEntity<MessageError> handlePreconditionFailedException(InternalServerErrorException ex) {
+      log.error(ex.getMessage(), ex);
+      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(ex.getError());
   }
   
   @ExceptionHandler(Exception.class)

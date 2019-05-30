@@ -12,5 +12,7 @@ import com.sensedia.payment.entity.ClientEntity;
 public interface ClientRepository extends JpaRepository<ClientEntity, UUID> {
 
 	Optional<ClientEntity> findByDocument(String document);
+	
+	Optional<ClientEntity> findByPhone(String phone);
 
 }

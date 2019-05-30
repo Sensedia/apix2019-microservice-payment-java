@@ -37,6 +37,9 @@ public class ClientEntity {
   private String document;
 
   @Column
+  private String password;
+  
+  @Column
   private String name;
 
   @Column

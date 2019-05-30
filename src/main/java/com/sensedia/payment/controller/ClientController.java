@@ -79,9 +79,10 @@ public class ClientController {
   }
 
   @PostMapping(value = "/{clientId}/debits", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
-  public ResponseEntity<Void> createDebit(@PathVariable String clientId, @RequestBody DebitRequest paymentDebitRequest) {
+  public ResponseEntity<Void> createDebit(@PathVariable String clientId, @RequestBody DebitRequest debitRequest) {
+    ClientValidator.validateDebit(debitRequest);
     UUID clientUUID = UuidValidator.validateIdAndGetUUID(clientId);
-    UUID uuid = debitService.create(clientUUID, paymentDebitRequest);
+    UUID uuid = debitService.create(clientUUID, debitRequest);
     return ResponseEntity.created(ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(uuid).toUri()).build();
   }
 

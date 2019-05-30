@@ -15,13 +15,15 @@ import lombok.NoArgsConstructor;
 public class DebitRequest {
 
   private String productId;
+  
+  private String description;
 
   private BigDecimal value;
 
   private Integer installmentsNumber;
 
   public DebitEntity toEntity(ClientEntity client) {
-    return DebitEntity.builder().client(client).value(value).installmentsNumber(installmentsNumber).productId(productId).build();
+    return DebitEntity.builder().client(client).value(value).installmentsNumber(installmentsNumber).productId(productId).description(description).build();
   }
 
 }
