@@ -7,7 +7,7 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 
 import com.sensedia.payment.client.service.RegisterClientService;
-import com.sensedia.payment.entity.ClientEntity;
+import com.sensedia.payment.entity.CustomerEntity;
 import com.sensedia.payment.entity.DebitEntity;
 import com.sensedia.payment.entity.InstallmentEntity;
 import com.sensedia.payment.exception.EntityNotFoundException;
@@ -25,35 +25,34 @@ import lombok.RequiredArgsConstructor;
 public class DebitService {
 
   private final DebitRepository debitRepository;
-  private final ClientService clientService;
+  private final CustomerService customerService;
   private final InstallmentService installmentService;
   private final RegisterClientService registerClientService;
 
-  public UUID create(UUID clientUUID, DebitRequest debitRequest) {
-    ClientEntity clientEntity = clientService.validateAndGetClientById(clientUUID);
-    DebitEntity debit = debitRequest.toEntity(clientEntity);
-    List<InstallmentEntity> installments = installmentService.generateInstallments(clientEntity.getExpirationDay(), debitRequest.getInstallmentsNumber(), debitRequest.getValue(), debit);
+  public UUID create(UUID customerUUID, DebitRequest debitRequest) {
+    CustomerEntity customerEntity = customerService.validateAndGetCustomerById(customerUUID);
+    DebitEntity debit = debitRequest.toEntity(customerEntity);
+    List<InstallmentEntity> installments = installmentService.generateInstallments(customerEntity.getExpirationDay(), debitRequest.getInstallmentsNumber(), debitRequest.getValue(), debit);
     debit.setInstallments(installments);
     
-    Integer score = registerClientService.getScore(clientEntity.getDocument());
+    Integer score = registerClientService.getScore(customerEntity.getDocument());
     debit.setDiscountPercentage(score / 100);
     
     return debitRepository.save(debit).getId();
   }
 
-  public DebitResponse findById(UUID clientUUID, UUID debitUUID) {
-    clientService.validateAndGetClientById(clientUUID);
+  public DebitResponse findById(UUID customerUUID, UUID debitUUID) {
+    customerService.validateAndGetCustomerById(customerUUID);
     DebitEntity debitEntity = debitRepository.findById(debitUUID).orElseThrow(EntityNotFoundException::new);
     return DebitResponse.valueOf(debitEntity);
   }
 
-  public List<DebitResponse> findByClientId(UUID clientUUID) {
-    clientService.validateAndGetClientById(clientUUID);
-    return debitRepository.findByClientId(clientUUID).stream().map(DebitResponse::valueOf).collect(Collectors.toList());
+  public List<DebitResponse> findByCustomerId(UUID customerUUID) {
+    return debitRepository.findByCustomerId(customerUUID).stream().map(DebitResponse::valueOf).collect(Collectors.toList());
   }
 
-  public void deleteDebit(UUID clientUUID, UUID debitUUID) {
-    clientService.validateAndGetClientById(clientUUID);
+  public void deleteDebit(UUID customerUUID, UUID debitUUID) {
+    customerService.validateAndGetCustomerById(customerUUID);
     if (!debitRepository.existsById(debitUUID)) {
       throw new UnprocessableEntityException(new MessageError(ErrorMessage.FIELD_VALUE_NOT_EXISTS, "Debit", debitUUID));
     }

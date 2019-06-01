@@ -9,6 +9,6 @@ import com.sensedia.payment.entity.DebitEntity;
 @Repository
 public interface DebitRepository extends CrudRepository<DebitEntity,UUID>  {
   
-  public List<DebitEntity> findByClientId(UUID clientId);
+  public List<DebitEntity> findByCustomerId(UUID customerId);
 
 }

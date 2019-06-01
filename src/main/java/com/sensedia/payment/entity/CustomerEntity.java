@@ -21,10 +21,10 @@ import lombok.NoArgsConstructor;
 @Entity
 @Builder
 @Data
-@Table(name = "client")
+@Table(name = "customer")
 @NoArgsConstructor
 @AllArgsConstructor
-public class ClientEntity {
+public class CustomerEntity {
 
   @Id
   @Type(type = "uuid-char")
@@ -51,7 +51,7 @@ public class ClientEntity {
   @Column
   private Integer expirationDay;
 
-  @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "client")
+  @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "customer")
   private List<DebitEntity> debits;
 
 }

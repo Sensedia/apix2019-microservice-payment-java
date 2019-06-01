@@ -36,8 +36,8 @@ public class DebitEntity {
   private UUID id;
 
   @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "clientId", nullable = false)
-  private ClientEntity client;
+  @JoinColumn(name = "customerId", nullable = false)
+  private CustomerEntity customer;
 
   @Column
   private String productId;

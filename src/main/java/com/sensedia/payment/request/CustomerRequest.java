@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 @Builder
-public class ClientRequest {
+public class CustomerRequest {
   
   private String document;
   private String name;

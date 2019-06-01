@@ -1,8 +1,10 @@
 package com.sensedia.payment.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
@@ -13,7 +15,6 @@ import com.sensedia.payment.exception.InternalServerErrorException;
 import com.sensedia.payment.exception.MessageError;
 import com.sensedia.payment.exception.PreconditionFailedException;
 import com.sensedia.payment.exception.UnprocessableEntityException;
-
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -56,11 +57,12 @@ public class ControllerAdvice {
       log.error(ex.getMessage(), ex);
       return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(ex.getError());
   }
-  
-  @ExceptionHandler(Exception.class)
-  protected ResponseEntity<Void> handleException(Exception ex) {
-	  log.error(ex.getMessage(), ex);
-      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+
+  @ExceptionHandler(HttpMessageNotReadableException.class)
+  protected ResponseEntity<List<MessageError>> handleException(HttpMessageNotReadableException ex) {
+      List<MessageError> errors = new ArrayList<>();
+      errors.add(new MessageError(ErrorMessage.INVALID_REQUEST));
+      return ResponseEntity.status(HttpStatus.PRECONDITION_FAILED).body(errors);
   }
 
 

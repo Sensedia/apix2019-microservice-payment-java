@@ -6,15 +6,15 @@ import org.springframework.util.StringUtils;
 import com.sensedia.payment.exception.ErrorMessage;
 import com.sensedia.payment.exception.MessageError;
 import com.sensedia.payment.exception.PreconditionFailedException;
-import com.sensedia.payment.request.ClientRequest;
+import com.sensedia.payment.request.CustomerRequest;
 import com.sensedia.payment.request.DebitRequest;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class ClientValidator {
+public class CustomerValidator {
 
-  public static void validate(ClientRequest request) {
+  public static void validate(CustomerRequest request) {
 
     List<MessageError> errors = new ArrayList<>();
 

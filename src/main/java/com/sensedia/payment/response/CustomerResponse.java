@@ -6,7 +6,7 @@ import lombok.Data;
 
 @Builder
 @Data
-public class ClientResponse {
+public class CustomerResponse {
 
 	private UUID id;
 	private String document;

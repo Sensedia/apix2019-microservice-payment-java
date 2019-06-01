@@ -1,10 +1,8 @@
 package com.sensedia.payment.request;
 
 import java.math.BigDecimal;
-
-import com.sensedia.payment.entity.ClientEntity;
+import com.sensedia.payment.entity.CustomerEntity;
 import com.sensedia.payment.entity.DebitEntity;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,15 +13,15 @@ import lombok.NoArgsConstructor;
 public class DebitRequest {
 
   private String productId;
-  
+
   private String description;
 
   private BigDecimal value;
 
   private Integer installmentsNumber;
 
-  public DebitEntity toEntity(ClientEntity client) {
-    return DebitEntity.builder().client(client).value(value).installmentsNumber(installmentsNumber).productId(productId).description(description).build();
+  public DebitEntity toEntity(CustomerEntity customer) {
+    return DebitEntity.builder().customer(customer).value(value).installmentsNumber(installmentsNumber).productId(productId).description(description).build();
   }
 
 }
