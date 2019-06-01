@@ -17,7 +17,7 @@ public class HashUtils {
       MessageDigest messageDigest = MessageDigest.getInstance("SHA-256");
       return toBase64(messageDigest.digest(data.getBytes()));
     } catch (NoSuchAlgorithmException e) {
-      throw new InternalServerErrorException(new MessageError(ErrorMessage.PASSWORD_ENCRYPT_FAILED,field));
+      throw new InternalServerErrorException(new MessageError(ErrorMessage.ENCRYPT_FAILED,field));
     }
   }
 

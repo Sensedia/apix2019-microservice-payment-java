@@ -18,6 +18,6 @@ public abstract class ErrorMessage {
 	
 	public static final String ALREADY_REGISTERED = "409.001";
 	
-	public static final String PASSWORD_ENCRYPT_FAILED = "500.001";
+	public static final String ENCRYPT_FAILED = "500.001";
     
 }
