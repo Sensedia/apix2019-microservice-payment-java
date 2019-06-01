@@ -5,26 +5,28 @@ info:
 host: 'sensedia.com'
 basePath: "/payment/v1"
 tags:
-  - name: Clients
-    description: "Operations about clients."
+  - name: Customers
+    description: "Operations about customers."
   - name: Payments
     description: "Operations about payments."
+  - name: Auth
+    description: "Operation about authentication."
 schemes:
   - https
 paths:
-  '/clients':
+  '/customers':
     post:
       tags:
-        - Clients
-      summary: "New client"
-      description: "Client creation."
+        - Customers
+      summary: "New customer"
+      description: "customer creation."
       parameters:
-        - name: client
+        - name: customer
           in: body
           required: true
-          description: "Client's information"
+          description: "customer's information"
           schema:
-            $ref: '#/definitions/ClientRequest'
+            $ref: '#/definitions/CustomerRequest'
       produces:
         - application/json
       consumes:
@@ -35,13 +37,13 @@ paths:
           headers:
             Location:
               type: string
-              description: Location to get client information
+              description: Location to get customer information
         412:
           description: Precondition Failed
           schema:
             type: array
             items:
-              $ref: '#/definitions/Error'  
+              $ref: '#/definitions/Error'
         422:
           description: Unprocessable Entity
           schema:
@@ -49,64 +51,64 @@ paths:
         500:
           description: Server error
     get:
-      tags: 
-        - Clients
-      summary: "Get all clients"
-      description: "Get all clients"
+      tags:
+        - Customers
+      summary: "Get all customers"
+      description: "Get all customers"
       parameters:
         - name: document
           in: query
           type: string
-          description: "Client's document"
+          description: "customer's document"
       responses:
         200:
           description: OK
           schema:
             type: array
             items:
-              $ref: '#/definitions/ClientResponse'
+              $ref: '#/definitions/CustomerResponse'
         204:
           description: No content
         500:
           description: Server error
-  '/clients/{clientId}':
+  '/customers/{customerId}':
     get:
       tags:
-        - Clients
-      summary: "Find client by id"
-      description: "Bring one client by id"
-      parameters: 
-        - name: clientId
+        - Customers
+      summary: "Find customer by id"
+      description: "Bring one customer by id"
+      parameters:
+        - name: customerId
           in: path
           required: true
           type: integer
-          description: "Identification of client"
+          description: "Identification of customer"
       responses:
         200:
           description: OK
           schema:
-            $ref: '#/definitions/ClientResponse'
+            $ref: '#/definitions/CustomerResponse'
         404:
           description: Not found
         500:
           description: Server error
     put:
       tags:
-        - Clients
-      summary: "Update client by id"
-      description: "Update client by id"
-      parameters: 
-        - name: clientId
+        - Customers
+      summary: "Update customer by id"
+      description: "Update customer by id"
+      parameters:
+        - name: customerId
           in: path
           required: true
           type: integer
-          description: "Identification of client"
-        - name: client
+          description: "Identification of customer"
+        - name: customer
           in: body
           required: false
-          description: "Client's information to update"
+          description: "customer's information to update"
           schema:
-            $ref: '#/definitions/ClientRequest'
+            $ref: '#/definitions/CustomerRequest'
       responses:
         204:
           description: No content
@@ -117,7 +119,7 @@ paths:
           schema:
             type: array
             items:
-              $ref: '#/definitions/Error'  
+              $ref: '#/definitions/Error'
         422:
           description: Unprocessable Entity
           schema:
@@ -125,22 +127,22 @@ paths:
         500:
           description: Server error
     patch:
-      tags: 
-        - Clients
-      summary: "Partial update on client's information by id" 
-      description: "Partial update on client's information by id"
-      parameters: 
-        - name: clientId
+      tags:
+        - Customers
+      summary: "Partial update on customer's information by id"
+      description: "Partial update on customer's information by id"
+      parameters:
+        - name: customerId
           in: path
           required: true
           type: integer
-          description: "Identification of client"
-        - name: client
+          description: "Identification of customer"
+        - name: customer
           in: body
           required: false
-          description: "Client's information to partial update"
+          description: "customer's information to partial update"
           schema:
-            $ref: "#/definitions/OptionalClientRequest"
+            $ref: "#/definitions/OptionalCustomerRequest"
       responses:
         204:
           description: No content
@@ -152,19 +154,19 @@ paths:
             type: array
             items:
               $ref: '#/definitions/Error'
-        500: 
+        500:
           description: Server error
     delete:
       tags:
-        - Clients
-      summary: "Delete client by id"
-      description: "Delete client by id"
-      parameters: 
-        - name: clientId
+        - Customers
+      summary: "Delete customer by id"
+      description: "Delete customer by id"
+      parameters:
+        - name: customerId
           in: path
           required: true
           type: integer
-          description: "Identification of client"
+          description: "Identification of customer"
       responses:
         204:
           description: No content
@@ -172,18 +174,18 @@ paths:
           description: Not found
         500:
           description: Server error
-  '/clients/{clientId}/debits':
+  '/customers/{customerId}/debits':
     post:
       tags:
-        - Clients
+        - Customers
       summary: "New debit"
       description: "Debit creation."
       parameters:
-        - name: clientId
+        - name: customerId
           in: path
           type: string
           required: true
-          description: "Identification of client"
+          description: "Identification of customer"
         - name: debit
           in: body
           required: true
@@ -206,7 +208,7 @@ paths:
           schema:
             type: array
             items:
-              $ref: '#/definitions/Error'  
+              $ref: '#/definitions/Error'
         422:
           description: Unprocessable Entity
           schema:
@@ -215,15 +217,15 @@ paths:
           description: Server error
     get:
       tags:
-        - Clients
-      summary: "Find client debits"
-      description: "Client debits"
-      parameters: 
-        - name: clientId
+        - Customers
+      summary: "Find customer debits"
+      description: "customer debits"
+      parameters:
+        - name: customerId
           in: path
           type: string
           required: true
-          description: "Identification of client"
+          description: "Identification of customer"
       produces:
         - application/json
       responses:
@@ -239,18 +241,18 @@ paths:
           description: Not found
         500:
           description: Server error
-  '/clients/{clientId}/debits/{debitId}':
+  '/customers/{customerId}/debits/{debitId}':
     get:
       tags:
-        - Clients
-      summary: "Find client debit"
-      description: "Client debit"
-      parameters: 
-        - name: clientId
+        - Customers
+      summary: "Find customer debit"
+      description: "customer debit"
+      parameters:
+        - name: customerId
           in: path
           type: string
           required: true
-          description: "Identification of client"
+          description: "Identification of customer"
         - name: debitId
           in: path
           type: string
@@ -277,7 +279,7 @@ paths:
         - name: payment
           in: body
           required: true
-          description: "Identification of client"
+          description: "Identification of customer"
           schema:
             $ref: '#/definitions/PaymentRequest'
       consumes:
@@ -290,7 +292,37 @@ paths:
           schema:
             type: array
             items:
-              $ref: '#/definitions/Error'  
+              $ref: '#/definitions/Error'
+        422:
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/Error'
+        500:
+          description: Server error
+  '/auth':
+    post:
+      tags:
+        - Auth
+      summary: "Validate user"
+      description: "Authentication"
+      parameters:
+        - name: authentication
+          in: body
+          required: true
+          description: "Identification of customer"
+          schema:
+            $ref: '#/definitions/AuthenticationRequest'
+      consumes:
+        - application/json
+      responses:
+        204:
+          description: No content
+        412:
+          description: Precondition Failed
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Error'
         422:
           description: Unprocessable Entity
           schema:
@@ -298,60 +330,77 @@ paths:
         500:
           description: Server error
 definitions:
-  ClientRequest:
-    properties: 
+  CustomerRequest:
+    properties:
       document:
         type: number
-      name: 
+      name:
         type: string
-      email: 
+      email:
         type: string
-      phone: 
-        type: boolean
-      expirationDay: 
+      phone:
+        type: string
+        example: "+5519983076241"
+      expirationDay:
         type: number
+      password:
+        type: string
     required:
       - document
       - name
       - email
       - phone
       - expirationDay
-  OptionalClientRequest:
-    properties: 
+      - password
+  OptionalCustomerRequest:
+    properties:
       document:
         type: number
-      name: 
+      name:
         type: string
-      email: 
+      email:
         type: string
-      phone: 
-        type: boolean
-      expirationDay: 
+      phone:
+        type: string
+        example: "+5519983076241"
+      expirationDay:
         type: number
-  ClientResponse:
+  CustomerResponse:
     type: object
-    properties: 
-      document: 
+    properties:
+      id:
+        type: string
+        example: "d2c4d413-c0e6-4125-b201-7b0cdb447020"
+      document:
         type: number
-      name: 
+      name:
         type: string
-      email: 
+      email:
         type: string
-      phone: 
-        type: boolean
-      expirationDay: 
+      phone:
+        type: string
+        example: "+5519983076241"
+      expirationDay:
         type: number
   DebitRequest:
     properties:
       productId:
         type: string
         example: "2c8c5d94-4261-4869-ac81-240a437fbc0f"
+      description:
+        type: string
+        example: "Camisa"
       value:
         type: number
         example: 79.99
       installmentsNumber:
         type: number
         example: 1
+    required:
+      - productId
+      - description
+      - value
+      - installmentsNumber
   DebitResponse:
     properties:
       id:
@@ -360,6 +409,9 @@ definitions:
       productId:
         type: string
         example: "2c8c5d94-4261-4869-ac81-240a437fbc0f"
+      description:
+        type: string
+        example: "Camisa"
       value:
         type: number
         example: 79.99
@@ -405,6 +457,17 @@ definitions:
       cardNumber:
         type: string
         example: '1111222233334444'
+  AuthenticationRequest:
+    properties:
+      document:
+        type: string
+        example: "04466448035"
+      password:
+        type: string
+        example: 'test123'
+    required:
+     - document
+     - password
   Error:
     type: object
     properties:
