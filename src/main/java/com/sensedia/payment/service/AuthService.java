@@ -19,7 +19,7 @@ public class AuthService {
     CustomerEntity customerEntity = customerService.validateAndGetCustomerByDocument(request.getDocument());
     String passwordHash = HashUtils.generateHash(request.getPassword(), "password");
     if (!customerEntity.getPassword().contentEquals(passwordHash)) {
-      throw new UnprocessableEntityException(new MessageError(ErrorMessage.INVALID_FIELD, "document or password"));
+      throw new UnprocessableEntityException(new MessageError(ErrorMessage.AUTH_FAILED));
     }
   }
 }

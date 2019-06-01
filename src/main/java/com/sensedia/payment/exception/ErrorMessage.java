@@ -14,6 +14,7 @@ public abstract class ErrorMessage {
     public static final String FIELD_VALUE_NOT_EXISTS = "422.001";
 	public static final String INVALID_INSTALLMENTS = "422.002";
 	public static final String ALREADY_REGISTERED_TO_ANOTHER_USER = "422.003";
+	public static final String AUTH_FAILED = "422.004";
 	
 	public static final String ALREADY_REGISTERED = "409.001";
 	

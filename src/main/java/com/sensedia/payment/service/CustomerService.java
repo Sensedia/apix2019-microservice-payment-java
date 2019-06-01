@@ -128,7 +128,7 @@ public class CustomerService {
   public CustomerEntity validateAndGetCustomerByDocument(String document) {
     Optional<CustomerEntity> opCustomer = customerRepository.findByDocument(document);
     if (!opCustomer.isPresent()) {
-      throw new EntityNotFoundException();
+      throw new UnprocessableEntityException(new MessageError(ErrorMessage.FIELD_VALUE_NOT_EXISTS, "document" ,document));
     }
     return opCustomer.get();
   }
