@@ -68,6 +68,7 @@ public class CustomerController {
   @PatchMapping("/{id}")
   public ResponseEntity<Void> partialUpdateCustomer(@RequestBody CustomerRequest partialUpdate, @PathVariable String id) {
     UUID customerId = UuidValidator.validateIdAndGetUUID(id);
+    CustomerValidator.validatePartialUpdate(partialUpdate);
     customerService.partialUpdateCustumerById(partialUpdate, customerId);
     return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
   }
