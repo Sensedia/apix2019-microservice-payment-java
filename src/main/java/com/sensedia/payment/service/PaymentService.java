@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
-import com.sensedia.payment.client.service.NotifyService;
+import com.sensedia.payment.client.service.TwilioNotificationClientService;
 import com.sensedia.payment.entity.DebitEntity;
 import com.sensedia.payment.entity.InstallmentEntity;
 import com.sensedia.payment.enumeration.InstallmentStatus;
@@ -25,9 +25,10 @@ import lombok.RequiredArgsConstructor;
 public class PaymentService {
 
   private static final String TEXT_MESSAGE = "Payment of %s installments made for the product %s";
+  
   private final DebitRepository debitRepository;
   private final InstallmentRepository installmentRepository;
-  private final NotifyService notifyService;
+  private final TwilioNotificationClientService twillioNotificationClientService;
 
   public void payment(PaymentRequest request) {
     UUID debitUUID = UuidValidator.validateIdAndGetUUID(request.getDebitId());
@@ -60,7 +61,7 @@ public class PaymentService {
     }
     
     installmentRepository.saveAll(installmentsToPay);
-    notifyService.sendSmsMessage(debit.getCustomer().getPhone(), String.format(TEXT_MESSAGE, installmentsToPay.size(), debit.getDescription()));
+    twillioNotificationClientService.sendSmsMessage(debit.getCustomer().getPhone(), String.format(TEXT_MESSAGE, installmentsToPay.size(), debit.getDescription()));
   }
 
 }

@@ -19,3 +19,9 @@ spring:
 ms-register:
     registrations:
         endpoint: http://localhost:8080/register/v1/registrations
+
+notification:
+    twilio:
+        account-sid: sid
+        auth-token: token
+        origin-phone: phone

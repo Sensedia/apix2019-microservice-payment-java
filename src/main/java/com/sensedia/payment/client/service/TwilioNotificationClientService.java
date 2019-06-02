@@ -9,18 +9,18 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-@Service
 @Slf4j
+@Service
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class NotifyService {
+public class TwilioNotificationClientService {
 
-  @Value("${TWILIO_ACCOUNT_SID}")
+  @Value("${notification.twilio.account-sid}")
   private String accountSid;
   
-  @Value("${TWILIO_AUTH_TOKEN}")
+  @Value("${notification.twilio.auth-token}")
   private String authToken;
   
-  @Value("${TWILIO_ORIGIN_PHONE}")
+  @Value("${notification.twilio.origin-phone}")
   private String originPhone;
 
   public void sendSmsMessage(String recipientPhone, String textMessage) {
