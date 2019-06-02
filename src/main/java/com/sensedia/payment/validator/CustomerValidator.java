@@ -25,6 +25,8 @@ public class CustomerValidator {
     String document = request.getDocument();
     if (StringUtils.isEmpty(document)) {
       errors.add(new MessageError(ErrorMessage.REQUIRED_FIELD, "document"));
+    } else if (document.length() != 11) {
+      errors.add(new MessageError(ErrorMessage.INVALID_FIELD, "document"));
     }
 
     String name = request.getName();
@@ -60,10 +62,6 @@ public class CustomerValidator {
     }
   }
 
-  private static boolean isValidPhone(String phone) {
-    return StringUtils.trimAllWhitespace(phone).matches("^\\+[1-9][1-9][1-9][1-9](?:[2-8]|9[1-9])[0-9]{7}$");
-  }
-
   public static void validateDebit(DebitRequest debitRequest) {
     List<MessageError> errors = new ArrayList<>();
 
@@ -92,6 +90,10 @@ public class CustomerValidator {
       throw new PreconditionFailedException(errors);
     }
     
+  }
+  
+  private static boolean isValidPhone(String phone) {
+	return StringUtils.trimAllWhitespace(phone).matches("^\\+[1-9][1-9][1-9][1-9](?:[2-8]|9[1-9])[0-9]{7}$");
   }
 
 }
