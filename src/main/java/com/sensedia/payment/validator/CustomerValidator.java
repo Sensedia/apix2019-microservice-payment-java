@@ -1,13 +1,17 @@
 package com.sensedia.payment.validator;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+
 import org.springframework.util.StringUtils;
+
 import com.sensedia.payment.exception.ErrorMessage;
 import com.sensedia.payment.exception.MessageError;
 import com.sensedia.payment.exception.PreconditionFailedException;
 import com.sensedia.payment.request.CustomerRequest;
 import com.sensedia.payment.request.DebitRequest;
+
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
@@ -41,8 +45,10 @@ public class CustomerValidator {
     }
 
     Integer expirationDay = request.getExpirationDay();
-    if (StringUtils.isEmpty(expirationDay)) {
+    if (expirationDay == null) {
       errors.add(new MessageError(ErrorMessage.REQUIRED_FIELD, "expirationDay"));
+    } else if (expirationDay < 1 || expirationDay > 28) {
+      errors.add(new MessageError(ErrorMessage.INVALID_EXPIRATION_DAY, expirationDay));
     }
 
     if (StringUtils.isEmpty(request.getPassword())) {
@@ -72,10 +78,14 @@ public class CustomerValidator {
     
     if (debitRequest.getInstallmentsNumber() == null) {
       errors.add(new MessageError(ErrorMessage.REQUIRED_FIELD, "installmentsNumber"));
+    } else if (debitRequest.getInstallmentsNumber() < 1) {
+      errors.add(new MessageError(ErrorMessage.INVALID_FIELD, "installmentsNumber"));
     }
     
     if (debitRequest.getValue() == null) {
       errors.add(new MessageError(ErrorMessage.REQUIRED_FIELD, "value"));
+    } else if (debitRequest.getValue().compareTo(BigDecimal.ZERO) <= 0) {
+      errors.add(new MessageError(ErrorMessage.INVALID_FIELD, "value"));
     }
 
     if (!errors.isEmpty()) {

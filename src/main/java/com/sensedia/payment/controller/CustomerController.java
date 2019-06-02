@@ -73,9 +73,10 @@ public class CustomerController {
   }
 
   @DeleteMapping("/{id}")
-  public void deleteCustomer(@PathVariable String id) {
+  public ResponseEntity<Void> deleteCustomer(@PathVariable String id) {
     UUID customerId = UuidValidator.validateIdAndGetUUID(id);
     customerService.deleteCustomerById(customerId);
+    return ResponseEntity.noContent().build();
   }
 
   @PostMapping(value = "/{customerId}/debits", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
