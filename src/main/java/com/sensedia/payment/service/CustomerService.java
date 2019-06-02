@@ -24,8 +24,8 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class CustomerService {
 
-  private static final String PHONE = "phone";
-  private static final String CUSTOMER = "document";
+  private static final String PHONE_FIELD = "phone";
+  private static final String DOCUMENT_FIELD = "document";
   private static final String PASS_FIELD = "password";
   
   private final CustomerRepository customerRepository;
@@ -34,12 +34,12 @@ public class CustomerService {
 
     Optional<CustomerEntity> customerByDocument = customerRepository.findByDocument(request.getDocument());
     if (customerByDocument.isPresent()) {
-      throw new EntityAlreadyExistsException(new MessageError(ErrorMessage.ALREADY_REGISTERED, CUSTOMER));
+      throw new EntityAlreadyExistsException(new MessageError(ErrorMessage.ALREADY_REGISTERED, DOCUMENT_FIELD));
     }
 
     Optional<CustomerEntity> customerByPhone = customerRepository.findByPhone(request.getPhone());
     if (customerByPhone.isPresent()) {
-      throw new EntityAlreadyExistsException(new MessageError(ErrorMessage.ALREADY_REGISTERED, PHONE));
+      throw new EntityAlreadyExistsException(new MessageError(ErrorMessage.ALREADY_REGISTERED, PHONE_FIELD));
     }
 
     String generatedPasswordHash = HashUtils.generateHash(request.getPassword(), PASS_FIELD);
@@ -63,7 +63,6 @@ public class CustomerService {
   }
   
   public void partialUpdateCustumerById(CustomerRequest customer, UUID id) {
-
     CustomerEntity customerUpdate = customerRepository.findById(id).orElseThrow(EntityNotFoundException::new);
     if (!StringUtils.isEmpty(customer.getDocument())) {
       Optional<CustomerEntity> customerByDocument = customerRepository.findByDocument(customer.getDocument());
@@ -128,7 +127,7 @@ public class CustomerService {
   public CustomerEntity validateAndGetCustomerByDocument(String document) {
     Optional<CustomerEntity> opCustomer = customerRepository.findByDocument(document);
     if (!opCustomer.isPresent()) {
-      throw new UnprocessableEntityException(new MessageError(ErrorMessage.FIELD_VALUE_NOT_EXISTS, "document" ,document));
+      throw new UnprocessableEntityException(new MessageError(ErrorMessage.FIELD_VALUE_NOT_EXISTS, DOCUMENT_FIELD, document));
     }
     return opCustomer.get();
   }
