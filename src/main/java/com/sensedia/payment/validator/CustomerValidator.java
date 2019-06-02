@@ -19,7 +19,6 @@ import lombok.NoArgsConstructor;
 public class CustomerValidator {
 
   public static void validate(CustomerRequest request) {
-
     List<MessageError> errors = new ArrayList<>();
 
     String document = request.getDocument();
@@ -90,6 +89,29 @@ public class CustomerValidator {
       throw new PreconditionFailedException(errors);
     }
     
+  }
+  
+  public static void validatePartialUpdate(CustomerRequest request) {
+    List<MessageError> errors = new ArrayList<>();
+
+    String document = request.getDocument();
+    if (!StringUtils.isEmpty(document) && document.length() != 11) {
+      errors.add(new MessageError(ErrorMessage.INVALID_FIELD, "document"));
+    }
+
+    String phone = request.getPhone();
+    if (!StringUtils.isEmpty(phone) && !isValidPhone(phone)) {
+      errors.add(new MessageError(ErrorMessage.INVALID_FIELD, "phone"));
+    }
+
+    Integer expirationDay = request.getExpirationDay();
+    if (expirationDay != null && (expirationDay < 1 || expirationDay > 28)) {
+      errors.add(new MessageError(ErrorMessage.INVALID_EXPIRATION_DAY, expirationDay));
+    }
+
+    if (!errors.isEmpty()) {
+      throw new PreconditionFailedException(errors);
+    }
   }
   
   private static boolean isValidPhone(String phone) {
