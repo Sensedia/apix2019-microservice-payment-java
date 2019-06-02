@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class CustomerConverter {
   
-  public static List<CustomerResponse> toClientResponse(List<CustomerEntity> customers) {
+  public static List<CustomerResponse> toCustomerResponse(List<CustomerEntity> customers) {
     return customers.stream().map(CustomerConverter::toCustomerResponse).collect(Collectors.toList());
   }
 
