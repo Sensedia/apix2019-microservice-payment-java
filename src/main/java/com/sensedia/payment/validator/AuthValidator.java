@@ -7,10 +7,7 @@ import com.sensedia.payment.exception.ErrorMessage;
 import com.sensedia.payment.exception.MessageError;
 import com.sensedia.payment.exception.PreconditionFailedException;
 import com.sensedia.payment.request.AuthRequest;
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
 
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class AuthValidator {
 
   public static void validate(AuthRequest request) {
@@ -29,4 +26,6 @@ public class AuthValidator {
       throw new PreconditionFailedException(errors);
     }
   }
+
+  private AuthValidator() {}
 }

@@ -3,13 +3,7 @@ package com.sensedia.payment.request;
 import java.math.BigDecimal;
 import com.sensedia.payment.entity.CustomerEntity;
 import com.sensedia.payment.entity.DebitEntity;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
 public class DebitRequest {
 
   private String productId;
@@ -20,8 +14,40 @@ public class DebitRequest {
 
   private Integer installmentsNumber;
 
+  public String getProductId() {
+    return productId;
+  }
+
+  public void setProductId(String productId) {
+    this.productId = productId;
+  }
+
+  public String getDescription() {
+    return description;
+  }
+
+  public void setDescription(String description) {
+    this.description = description;
+  }
+
+  public BigDecimal getValue() {
+    return value;
+  }
+
+  public void setValue(BigDecimal value) {
+    this.value = value;
+  }
+
+  public Integer getInstallmentsNumber() {
+    return installmentsNumber;
+  }
+
+  public void setInstallmentsNumber(Integer installmentsNumber) {
+    this.installmentsNumber = installmentsNumber;
+  }
+
   public DebitEntity toEntity(CustomerEntity customer) {
-    return DebitEntity.builder().customer(customer).value(value).installmentsNumber(installmentsNumber).productId(productId).description(description).build();
+    return new DebitEntity(customer, productId, description, value, installmentsNumber);
   }
 
 }

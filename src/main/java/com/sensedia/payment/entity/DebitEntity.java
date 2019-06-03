@@ -15,17 +15,9 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Entity
-@Builder
-@Data
 @Table(name = "debit")
-@NoArgsConstructor
-@AllArgsConstructor
 public class DebitEntity {
 
   @Id
@@ -57,4 +49,71 @@ public class DebitEntity {
   @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "debit")
   private List<InstallmentEntity> installments;
 
+  public DebitEntity(CustomerEntity customer, String productId, String description, BigDecimal value, Integer installmentsNumber) {
+    this.customer = customer;
+    this.productId = productId;
+    this.description = description;
+    this.value = value;
+    this.installmentsNumber = installmentsNumber;
+  }
+  
+  public DebitEntity() {
+  }
+  
+  public UUID getId() {
+    return id;
+  }
+
+  public CustomerEntity getCustomer() {
+    return customer;
+  }
+
+  public String getProductId() {
+    return productId;
+  }
+
+  public void setProductId(String productId) {
+    this.productId = productId;
+  }
+
+  public String getDescription() {
+    return description;
+  }
+
+  public void setDescription(String description) {
+    this.description = description;
+  }
+
+  public BigDecimal getValue() {
+    return value;
+  }
+
+  public void setValue(BigDecimal value) {
+    this.value = value;
+  }
+
+  public Integer getInstallmentsNumber() {
+    return installmentsNumber;
+  }
+
+  public void setInstallmentsNumber(Integer installmentsNumber) {
+    this.installmentsNumber = installmentsNumber;
+  }
+
+  public Integer getDiscountPercentage() {
+    return discountPercentage;
+  }
+
+  public void setDiscountPercentage(Integer discountPercentage) {
+    this.discountPercentage = discountPercentage;
+  }
+
+  public List<InstallmentEntity> getInstallments() {
+    return installments;
+  }
+
+  public void setInstallments(List<InstallmentEntity> installments) {
+    this.installments = installments;
+  }
+  
 }

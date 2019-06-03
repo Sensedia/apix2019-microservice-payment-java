@@ -24,15 +24,18 @@ import com.sensedia.payment.service.CustomerService;
 import com.sensedia.payment.service.DebitService;
 import com.sensedia.payment.validator.CustomerValidator;
 import com.sensedia.payment.validator.UuidValidator;
-import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequiredArgsConstructor
 @RequestMapping("/customers")
 public class CustomerController {
 
-  private final CustomerService customerService;
-  private final DebitService debitService;
+  private CustomerService customerService;
+  private DebitService debitService;
+
+  public CustomerController(CustomerService customerService, DebitService debitService) {
+    this.customerService = customerService;
+    this.debitService = debitService;
+  }
 
   @GetMapping
   public ResponseEntity<List<CustomerResponse>> retrieveAllCustomers(@RequestParam(name = "document", required = false) String document) {
@@ -110,7 +113,7 @@ public class CustomerController {
   public ResponseEntity<List<DebitResponse>> deleteDebit(@PathVariable String customerId, @PathVariable String id) {
     UUID customerUUID = UuidValidator.validateIdAndGetUUID(customerId);
     UUID debitUUID = UuidValidator.validateIdAndGetUUID(id);
-    debitService.deleteDebit(customerUUID,debitUUID);
+    debitService.deleteDebit(customerUUID, debitUUID);
     return ResponseEntity.noContent().build();
   }
 

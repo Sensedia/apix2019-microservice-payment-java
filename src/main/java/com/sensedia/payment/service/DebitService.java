@@ -3,9 +3,7 @@ package com.sensedia.payment.service;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
-
 import org.springframework.stereotype.Service;
-
 import com.sensedia.payment.client.service.RegisterClientService;
 import com.sensedia.payment.entity.CustomerEntity;
 import com.sensedia.payment.entity.DebitEntity;
@@ -18,16 +16,21 @@ import com.sensedia.payment.repository.DebitRepository;
 import com.sensedia.payment.request.DebitRequest;
 import com.sensedia.payment.response.DebitResponse;
 
-import lombok.RequiredArgsConstructor;
-
 @Service
-@RequiredArgsConstructor
 public class DebitService {
 
   private final DebitRepository debitRepository;
   private final CustomerService customerService;
   private final InstallmentService installmentService;
   private final RegisterClientService registerClientService;
+  
+  public DebitService(DebitRepository debitRepository, CustomerService customerService, InstallmentService installmentService,
+      RegisterClientService registerClientService) {
+    this.debitRepository = debitRepository;
+    this.customerService = customerService;
+    this.installmentService = installmentService;
+    this.registerClientService = registerClientService;
+  }
 
   public UUID create(UUID customerUUID, DebitRequest debitRequest) {
     CustomerEntity customerEntity = customerService.validateAndGetCustomerById(customerUUID);

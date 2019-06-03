@@ -1,20 +1,35 @@
 package com.sensedia.payment.request;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
-@Data
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
 public class PaymentRequest {
-	
-	private String debitId;
-	
-	private Integer installments;
-	
-	private String cardNumber;
+
+  private String debitId;
+
+  private Integer installments;
+
+  private String cardNumber;
+
+  public String getDebitId() {
+    return debitId;
+  }
+
+  public void setDebitId(String debitId) {
+    this.debitId = debitId;
+  }
+
+  public Integer getInstallments() {
+    return installments;
+  }
+
+  public void setInstallments(Integer installments) {
+    this.installments = installments;
+  }
+
+  public String getCardNumber() {
+    return cardNumber;
+  }
+
+  public void setCardNumber(String cardNumber) {
+    this.cardNumber = cardNumber;
+  }
 
 }

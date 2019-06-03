@@ -1,25 +1,24 @@
 package com.sensedia.payment.client.service;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import com.twilio.Twilio;
 import com.twilio.rest.api.v2010.account.Message;
 import com.twilio.type.PhoneNumber;
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
 @Service
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class TwilioNotificationClientService {
+
+  private Logger log = LogManager.getLogger(this);
 
   @Value("${notification.twilio.account-sid}")
   private String accountSid;
-  
+
   @Value("${notification.twilio.auth-token}")
   private String authToken;
-  
+
   @Value("${notification.twilio.origin-phone}")
   private String originPhone;
 

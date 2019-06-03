@@ -3,23 +3,17 @@ package com.sensedia.payment.validator;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
-
 import org.springframework.util.StringUtils;
-
 import com.sensedia.payment.exception.ErrorMessage;
 import com.sensedia.payment.exception.MessageError;
 import com.sensedia.payment.exception.PreconditionFailedException;
 import com.sensedia.payment.request.CustomerRequest;
 import com.sensedia.payment.request.DebitRequest;
 
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
-
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class CustomerValidator {
 
   private static final String PHONE_PATTERN = "^\\+[1-9][1-9][1-9][1-9](?:[2-8]|9[1-9])[0-9]{7}$";
-  private static final String VALUE_FIELD = "value"; 
+  private static final String VALUE_FIELD = "value";
   private static final String INSTALLMENTS_NUMBER_FIELD = "installmentsNumber";
   private static final String DESCRIPTION_FIELD = "description";
   private static final String PRODUCT_ID_FIELD = "productId";
@@ -76,21 +70,21 @@ public class CustomerValidator {
   public static void validateDebit(DebitRequest debitRequest) {
     List<MessageError> errors = new ArrayList<>();
 
-    
+
     if (StringUtils.isEmpty(debitRequest.getProductId())) {
       errors.add(new MessageError(ErrorMessage.REQUIRED_FIELD, PRODUCT_ID_FIELD));
     }
-    
+
     if (StringUtils.isEmpty(debitRequest.getDescription())) {
       errors.add(new MessageError(ErrorMessage.REQUIRED_FIELD, DESCRIPTION_FIELD));
     }
-    
+
     if (debitRequest.getInstallmentsNumber() == null) {
       errors.add(new MessageError(ErrorMessage.REQUIRED_FIELD, INSTALLMENTS_NUMBER_FIELD));
     } else if (debitRequest.getInstallmentsNumber() < 1) {
       errors.add(new MessageError(ErrorMessage.INVALID_FIELD, INSTALLMENTS_NUMBER_FIELD));
     }
-    
+
     if (debitRequest.getValue() == null) {
       errors.add(new MessageError(ErrorMessage.REQUIRED_FIELD, VALUE_FIELD));
     } else if (debitRequest.getValue().compareTo(BigDecimal.ZERO) <= 0) {
@@ -100,9 +94,9 @@ public class CustomerValidator {
     if (!errors.isEmpty()) {
       throw new PreconditionFailedException(errors);
     }
-    
+
   }
-  
+
   public static void validatePartialUpdate(CustomerRequest request) {
     List<MessageError> errors = new ArrayList<>();
 
@@ -125,9 +119,11 @@ public class CustomerValidator {
       throw new PreconditionFailedException(errors);
     }
   }
-  
+
   private static boolean isValidPhone(String phone) {
-	return StringUtils.trimAllWhitespace(phone).matches(PHONE_PATTERN);
+    return StringUtils.trimAllWhitespace(phone).matches(PHONE_PATTERN);
   }
+
+  private CustomerValidator() {}
 
 }

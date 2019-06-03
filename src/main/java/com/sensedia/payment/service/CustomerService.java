@@ -18,17 +18,19 @@ import com.sensedia.payment.repository.CustomerRepository;
 import com.sensedia.payment.request.CustomerRequest;
 import com.sensedia.payment.response.CustomerResponse;
 import com.sensedia.payment.utils.HashUtils;
-import lombok.RequiredArgsConstructor;
 
 @Service
-@RequiredArgsConstructor
 public class CustomerService {
 
   private static final String PHONE_FIELD = "phone";
   private static final String DOCUMENT_FIELD = "document";
   private static final String PASS_FIELD = "password";
-  
-  private final CustomerRepository customerRepository;
+
+  private CustomerRepository customerRepository;
+
+  public CustomerService(CustomerRepository customerRepository) {
+    this.customerRepository = customerRepository;
+  }
 
   public UUID saveCustomerInfo(CustomerRequest request) {
 
@@ -47,7 +49,7 @@ public class CustomerService {
     CustomerEntity customer = customerRepository.save(CustomerConverter.toCustomer(request));
     return customer.getId();
   }
-  
+
   public List<CustomerResponse> findAllCustomers(String document) {
     List<CustomerEntity> customers = new ArrayList<>();
     if (StringUtils.isEmpty(document)) {
@@ -61,7 +63,7 @@ public class CustomerService {
   public CustomerResponse findCustomerById(UUID id) {
     return customerRepository.findById(id).map(CustomerConverter::toCustomerResponse).orElseThrow(EntityNotFoundException::new);
   }
-  
+
   public void partialUpdateCustumerById(CustomerRequest customer, UUID id) {
     CustomerEntity customerUpdate = customerRepository.findById(id).orElseThrow(EntityNotFoundException::new);
     if (!StringUtils.isEmpty(customer.getDocument())) {
@@ -108,7 +110,7 @@ public class CustomerService {
     customerUpdate.setPassword(HashUtils.generateHash(customer.getPassword(), PASS_FIELD));
     customerRepository.save(customerUpdate);
   }
-  
+
   public void deleteCustomerById(UUID id) {
     if (!customerRepository.existsById(id)) {
       throw new EntityNotFoundException();

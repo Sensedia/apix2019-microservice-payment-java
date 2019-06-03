@@ -7,13 +7,15 @@ import com.sensedia.payment.exception.MessageError;
 import com.sensedia.payment.exception.UnprocessableEntityException;
 import com.sensedia.payment.request.AuthRequest;
 import com.sensedia.payment.utils.HashUtils;
-import lombok.RequiredArgsConstructor;
 
 @Service
-@RequiredArgsConstructor
 public class AuthService {
 
-  private final CustomerService customerService;
+  private CustomerService customerService;
+
+  public AuthService(CustomerService customerService) {
+    this.customerService = customerService;
+  }
 
   public void validateUser(AuthRequest request) {
     CustomerEntity customerEntity = customerService.validateAndGetCustomerByDocument(request.getDocument());

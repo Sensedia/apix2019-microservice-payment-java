@@ -2,6 +2,8 @@ package com.sensedia.payment.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -15,11 +17,11 @@ import com.sensedia.payment.exception.InternalServerErrorException;
 import com.sensedia.payment.exception.MessageError;
 import com.sensedia.payment.exception.PreconditionFailedException;
 import com.sensedia.payment.exception.UnprocessableEntityException;
-import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
 @RestControllerAdvice
 public class ControllerAdvice {
+  
+  private Logger log = LogManager.getLogger(this);
   
   @ExceptionHandler(MethodArgumentTypeMismatchException.class)
   protected ResponseEntity<MessageError> handleException(MethodArgumentTypeMismatchException ex) {

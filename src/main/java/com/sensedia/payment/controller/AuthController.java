@@ -9,14 +9,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.sensedia.payment.request.AuthRequest;
 import com.sensedia.payment.service.AuthService;
 import com.sensedia.payment.validator.AuthValidator;
-import lombok.RequiredArgsConstructor;
 
 @Controller
-@RequiredArgsConstructor
 @RequestMapping("/auth")
 public class AuthController {
 
-  private final AuthService authService;
+  private AuthService authService;
+
+  public AuthController(AuthService authService) {
+    this.authService = authService;
+  }
 
   @PostMapping(consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
   public ResponseEntity<Void> authUser(@RequestBody AuthRequest request) {
