@@ -19,7 +19,7 @@ Após a realização da build será produzido um .jar que pode ser encontrado na
 Para executar a aplicação acessar pasta target: cd/target e executar o comando abaixo:
 
 ```
-java -jar apix2019-microservice-payment-java-1.0.jar --PORT=8181 --DATABASE_URL=jdbc:mysql://localhost:3306/apix2019 --DATABASE_USER=root --DATABASE_PASSWORD=apix2019 --REGISTER_ENDPOINT=http://localhost:8080/register/v1/registrations --TWILIO_ACCOUNT_SID=testeaccount --TWILIO_ACCOUNT_TOKEN=authToken --TWILIO_ORIGIN_PHONE=originPhone
+java -jar apix2019-microservice-payment-java-1.0.jar --PORT=8181 --DATABASE_URL=jdbc:mysql://localhost:3306/apix2019 --DATABASE_USER=root --DATABASE_PASSWORD=apix2019 --REGISTER_ENDPOINT=http://localhost:4242/register/v1/registrations --TWILIO_ACCOUNT_SID=testeaccount --TWILIO_ACCOUNT_TOKEN=authToken --TWILIO_ORIGIN_PHONE=originPhone
 ```
 
 Variaveis de ambiente
