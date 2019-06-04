@@ -37,12 +37,15 @@ public class RegisterClientService {
       ResponseEntity<RegistrationsResponse> response = restTemplate.exchange(uri, HttpMethod.GET, request, RegistrationsResponse.class);
 
       if (response.getStatusCode().equals(HttpStatus.OK)) {
-        return response.getBody().getScore();
+    	Integer score = response.getBody().getScore();
+    	log.info("O serviço de consulta de score retornou {}.", score);
+        return score;
       } else {
+    	log.info("O serviço de consulta de score não retornou informações, retornando score 100...");
         return 100;
       }
     } catch (Exception e) {
-      log.error("Error calling register.", e);
+      log.error("Erro ao chamar o serviço para consulta de score, retornando score 100...", e);
       return 100;
     }
   }
