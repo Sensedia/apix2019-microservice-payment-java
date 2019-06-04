@@ -2,12 +2,12 @@ version: '3'
 
 services:
   apixdatabase:
-    image: mysql:5.6
+    image: mysql:5.7
     ports:
       - 3306:3306
     hostname: database
     volumes:
       - .var/lib/mysql:/var/lib/mysql
     environment:
-      - MYSQL_ROOT_PASSWORD=root
-      - MYSQL_DATABASE=apix
+      - MYSQL_ROOT_PASSWORD=apix2019
+      - MYSQL_DATABASE=apix2019
