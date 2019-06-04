@@ -10,6 +10,7 @@ import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
+import com.sensedia.payment.exception.CustomException;
 import com.sensedia.payment.exception.EntityAlreadyExistsException;
 import com.sensedia.payment.exception.EntityNotFoundException;
 import com.sensedia.payment.exception.ErrorMessage;
@@ -66,6 +67,11 @@ public class ControllerAdvice {
       errors.add(new MessageError(ErrorMessage.INVALID_REQUEST));
       return ResponseEntity.status(HttpStatus.PRECONDITION_FAILED).body(errors);
   }
-
+  
+  @ExceptionHandler(CustomException.class)
+  protected ResponseEntity<Void> handleBadRequestException(CustomException ex) {
+      log.error(ex.getMessage(), ex);
+      return ResponseEntity.status(HttpStatus.I_AM_A_TEAPOT).build();
+  }
 
 }

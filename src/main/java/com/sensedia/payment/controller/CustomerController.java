@@ -57,7 +57,7 @@ public class CustomerController {
   public ResponseEntity<Void> createNewCustomer(@RequestBody CustomerRequest customer) {
     CustomerValidator.validate(customer);
     UUID customerId = customerService.saveCustomerInfo(customer);
-    return ResponseEntity.created(ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(customerId).toUri()).build();
+    return ResponseEntity.ok().build();
   }
 
   @PutMapping("/{id}")

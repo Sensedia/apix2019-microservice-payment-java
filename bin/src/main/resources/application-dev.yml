@@ -5,9 +5,9 @@ server:
 
 spring:
     datasource:
-        url: jdbc:mysql://localhost:3306/apix2019
+        url: jdbc:mysql://localhost:3306/apix
         username: root
-        password: apix2019
+        password: root
     jpa:
         hibernate:
             ddl-auto: update

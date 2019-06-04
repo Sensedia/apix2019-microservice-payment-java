@@ -1,0 +1,479 @@
+swagger: '2.0'
+info:
+  version: '1.0.0'
+  title: "Payment API"
+host: 'sensedia.com'
+basePath: "/payment/v1"
+tags:
+  - name: Customers
+    description: "Operations about customers."
+  - name: Payments
+    description: "Operations about payments."
+  - name: Auth
+    description: "Operation about authentication."
+schemes:
+  - https
+paths:
+  '/customers':
+    post:
+      tags:
+        - Customers
+      summary: "New customer"
+      description: "customer creation."
+      parameters:
+        - name: customer
+          in: body
+          required: true
+          description: "customer's information"
+          schema:
+            $ref: '#/definitions/CustomerRequest'
+      produces:
+        - application/json
+      consumes:
+        - application/json
+      responses:
+        201:
+          description: "Created"
+          headers:
+            Location:
+              type: string
+              description: Location to get customer information
+        412:
+          description: Precondition Failed
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Error'
+        422:
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/Error'
+        500:
+          description: Server error
+    get:
+      tags:
+        - Customers
+      summary: "Get all customers"
+      description: "Get all customers"
+      parameters:
+        - name: document
+          in: query
+          type: string
+          description: "customer's document"
+      responses:
+        200:
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/CustomerResponse'
+        204:
+          description: No content
+        500:
+          description: Server error
+  '/customers/{customerId}':
+    get:
+      tags:
+        - Customers
+      summary: "Find customer by id"
+      description: "Bring one customer by id"
+      parameters:
+        - name: customerId
+          in: path
+          required: true
+          type: integer
+          description: "Identification of customer"
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/CustomerResponse'
+        404:
+          description: Not found
+        500:
+          description: Server error
+    put:
+      tags:
+        - Customers
+      summary: "Update customer by id"
+      description: "Update customer by id"
+      parameters:
+        - name: customerId
+          in: path
+          required: true
+          type: integer
+          description: "Identification of customer"
+        - name: customer
+          in: body
+          required: false
+          description: "customer's information to update"
+          schema:
+            $ref: '#/definitions/CustomerRequest'
+      responses:
+        204:
+          description: No content
+        404:
+          description: Not found
+        412:
+          description: Precondition Failed
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Error'
+        422:
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/Error'
+        500:
+          description: Server error
+    patch:
+      tags:
+        - Customers
+      summary: "Partial update on customer's information by id"
+      description: "Partial update on customer's information by id"
+      parameters:
+        - name: customerId
+          in: path
+          required: true
+          type: integer
+          description: "Identification of customer"
+        - name: customer
+          in: body
+          required: false
+          description: "customer's information to partial update"
+          schema:
+            $ref: "#/definitions/OptionalCustomerRequest"
+      responses:
+        204:
+          description: No content
+        404:
+          description: Not found
+        422:
+          description: Unprocessable Entity
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Error'
+        500:
+          description: Server error
+    delete:
+      tags:
+        - Customers
+      summary: "Delete customer by id"
+      description: "Delete customer by id"
+      parameters:
+        - name: customerId
+          in: path
+          required: true
+          type: integer
+          description: "Identification of customer"
+      responses:
+        204:
+          description: No content
+        404:
+          description: Not found
+        500:
+          description: Server error
+  '/customers/{customerId}/debits':
+    post:
+      tags:
+        - Customers
+      summary: "New debit"
+      description: "Debit creation."
+      parameters:
+        - name: customerId
+          in: path
+          type: string
+          required: true
+          description: "Identification of customer"
+        - name: debit
+          in: body
+          required: true
+          description: "Debit's information"
+          schema:
+            $ref: '#/definitions/DebitRequest'
+      consumes:
+        - application/json
+      responses:
+        201:
+          description: "Created"
+          headers:
+            Location:
+              type: string
+              description: Location to get debit information
+        404:
+          description: Not Found
+        412:
+          description: Precondition Failed
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Error'
+        422:
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/Error'
+        500:
+          description: Server error
+    get:
+      tags:
+        - Customers
+      summary: "Find customer debits"
+      description: "customer debits"
+      parameters:
+        - name: customerId
+          in: path
+          type: string
+          required: true
+          description: "Identification of customer"
+      produces:
+        - application/json
+      responses:
+        200:
+          description: Ok
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/DebitResponse'
+        204:
+          description: No content
+        404:
+          description: Not found
+        500:
+          description: Server error
+  '/customers/{customerId}/debits/{debitId}':
+    get:
+      tags:
+        - Customers
+      summary: "Find customer debit"
+      description: "customer debit"
+      parameters:
+        - name: customerId
+          in: path
+          type: string
+          required: true
+          description: "Identification of customer"
+        - name: debitId
+          in: path
+          type: string
+          required: true
+          description: "Identification of debit"
+      produces:
+        - application/json
+      responses:
+        200:
+          description: Ok
+          schema:
+            $ref: '#/definitions/DebitResponse'
+        404:
+          description: Not found
+        500:
+          description: Server error
+  '/payments':
+    post:
+      tags:
+        - Payments
+      summary: "New payment"
+      description: "Payment"
+      parameters:
+        - name: payment
+          in: body
+          required: true
+          description: "Identification of customer"
+          schema:
+            $ref: '#/definitions/PaymentRequest'
+      consumes:
+        - application/json
+      responses:
+        201:
+          description: "Created"
+        412:
+          description: Precondition Failed
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Error'
+        422:
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/Error'
+        500:
+          description: Server error
+  '/auth':
+    post:
+      tags:
+        - Auth
+      summary: "Validate user"
+      description: "Authentication"
+      parameters:
+        - name: authentication
+          in: body
+          required: true
+          description: "Identification of customer"
+          schema:
+            $ref: '#/definitions/AuthenticationRequest'
+      consumes:
+        - application/json
+      responses:
+        204:
+          description: No content
+        412:
+          description: Precondition Failed
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Error'
+        422:
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/Error'
+        500:
+          description: Server error
+definitions:
+  CustomerRequest:
+    properties:
+      document:
+        type: number
+      name:
+        type: string
+      email:
+        type: string
+      phone:
+        type: string
+        example: "+5519983076241"
+      expirationDay:
+        type: number
+      password:
+        type: string
+    required:
+      - document
+      - name
+      - email
+      - phone
+      - expirationDay
+      - password
+  OptionalCustomerRequest:
+    properties:
+      document:
+        type: number
+      name:
+        type: string
+      email:
+        type: string
+      phone:
+        type: string
+        example: "+5519983076241"
+      expirationDay:
+        type: number
+  CustomerResponse:
+    type: object
+    properties:
+      id:
+        type: string
+        example: "d2c4d413-c0e6-4125-b201-7b0cdb447020"
+      document:
+        type: number
+      name:
+        type: string
+      email:
+        type: string
+      phone:
+        type: string
+        example: "+5519983076241"
+      expirationDay:
+        type: number
+  DebitRequest:
+    properties:
+      productId:
+        type: string
+        example: "2c8c5d94-4261-4869-ac81-240a437fbc0f"
+      description:
+        type: string
+        example: "Camisa"
+      value:
+        type: number
+        example: 79.99
+      installmentsNumber:
+        type: number
+        example: 1
+    required:
+      - productId
+      - description
+      - value
+      - installmentsNumber
+  DebitResponse:
+    properties:
+      id:
+        type: string
+        example: "d2c4d413-c0e6-4125-b201-7b0cdb447020"
+      productId:
+        type: string
+        example: "2c8c5d94-4261-4869-ac81-240a437fbc0f"
+      description:
+        type: string
+        example: "Camisa"
+      value:
+        type: number
+        example: 79.99
+      installmentsNumber:
+        type: number
+        example: 1
+      antecipationDiscountPercentage:
+        type: number
+        example: 5
+      installments:
+        type: array
+        items:
+          $ref: '#/definitions/InstallmentResponse'
+  InstallmentResponse:
+    properties:
+      value:
+        type: number
+        example: 15.99
+      status:
+        type: string
+        example: 'PAID'
+        enum: [PENDING, PAID]
+      expirationDate:
+        type: string
+        example: '2019-01-01'
+      payday:
+        type: string
+        example: '2019-01-01T10:04:57'
+      paidValue:
+        type: number
+        example: 15.19
+      appliedDiscountPercentage:
+        type: number
+        example: 5
+  PaymentRequest:
+    properties:
+      debitId:
+        type: string
+        example: "c2caee39-e49c-4233-b88f-a2450c7b7a02"
+      installments:
+        type: number
+        example: 1
+      cardNumber:
+        type: string
+        example: '1111222233334444'
+  AuthenticationRequest:
+    properties:
+      document:
+        type: string
+        example: "04466448035"
+      password:
+        type: string
+        example: 'test123'
+    required:
+     - document
+     - password
+  Error:
+    type: object
+    properties:
+      code:
+        type: string
+        description: Error code
+      message:
+        type: string
+        description: Error message

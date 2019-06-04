@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import com.sensedia.payment.converter.CustomerConverter;
 import com.sensedia.payment.entity.CustomerEntity;
+import com.sensedia.payment.exception.CustomException;
 import com.sensedia.payment.exception.EntityAlreadyExistsException;
 import com.sensedia.payment.exception.EntityNotFoundException;
 import com.sensedia.payment.exception.ErrorMessage;
@@ -44,8 +45,6 @@ public class CustomerService {
       throw new EntityAlreadyExistsException(new MessageError(ErrorMessage.ALREADY_REGISTERED, PHONE_FIELD));
     }
 
-    String generatedPasswordHash = HashUtils.generateHash(request.getPassword(), PASS_FIELD);
-    request.setPassword(generatedPasswordHash);
     CustomerEntity customer = customerRepository.save(CustomerConverter.toCustomer(request));
     return customer.getId();
   }
@@ -61,7 +60,7 @@ public class CustomerService {
   }
 
   public CustomerResponse findCustomerById(UUID id) {
-    return customerRepository.findById(id).map(CustomerConverter::toCustomerResponse).orElseThrow(EntityNotFoundException::new);
+    return customerRepository.findById(id).map(CustomerConverter::toCustomerResponse).orElseThrow(CustomException::new);
   }
 
   public void partialUpdateCustumerById(CustomerRequest customer, UUID id) {
