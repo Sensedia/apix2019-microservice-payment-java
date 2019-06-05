@@ -25,10 +25,20 @@ java -jar apix2019-microservice-payment-java-1.0.jar --PORT=8181 --DATABASE_URL=
 Variaveis de ambiente
 
 PORT= Porta em que o microserviço vai rodar. Ex: 4242
+
 DATABASE_URL= Endereço do banco de dados mysql. Ex: jdbc:mysql://localhost:3306/apix2019
+
 DATABASE_USER= Usuário de acesso ao banco de dados. Ex: apix2019
+
 DATABASE_PASSWORD= Senha de acesso ao banco de dados. Ex: apix2019
+
 REGISTER_ENDPOINT= Endereço para acessar ms-register e consultar score. Ex: http://localhost:4242/register/v1/registrations
-TWILIO_ACCOUNT_SID= Identificador da conta cadastrada no Twilo
-TWILIO_ACCOUNT_TOKEN= Token da conta cadastrada no Twilo
-TWILIO_ORIGIN_PHONE=Número origem disponibilizado pelo Twilo (Trial number)
+
+TWILIO_ACCOUNT_SID= Identificador da conta cadastrada no Twilio
+
+TWILIO_ACCOUNT_TOKEN= Token da conta cadastrada no Twilio
+
+TWILIO_ORIGIN_PHONE=Número origem disponibilizado pelo Twilio (Trial number)
+
+# Collection Postman
+https://www.getpostman.com/collections/1a0bc2e1c8903b5916c0
