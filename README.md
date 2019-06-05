@@ -3,7 +3,7 @@ Pagamento e antecipação de débitos relacionados
 a um cliente.
 
 # Build
-Para build do projeto são nacessárias as seguintes ferramentas:
+Para build do projeto são necessárias as seguintes ferramentas:
 
 * java 8
 * mvn > 3.3.9
