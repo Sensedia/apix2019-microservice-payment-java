@@ -41,4 +41,4 @@ TWILIO_ACCOUNT_TOKEN= Token da conta cadastrada no Twilio
 TWILIO_ORIGIN_PHONE=Número origem disponibilizado pelo Twilio (Trial number)
 
 # Collection Postman
-https://www.getpostman.com/collections/1a0bc2e1c8903b5916c0
+https://www.getpostman.com/collections/3c28114b4cd268026157
