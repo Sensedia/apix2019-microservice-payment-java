@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import com.sensedia.payment.request.PaymentRequest;
 import com.sensedia.payment.service.PaymentService;
+import com.sensedia.payment.validator.PaymentValidator;
 
 @Controller
 @RequestMapping("/payments")
@@ -23,6 +24,7 @@ public class PaymentController {
 
   @PostMapping(consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
   public ResponseEntity<Void> payments(@RequestBody PaymentRequest request) {
+	PaymentValidator.validate(request);
     paymentService.payment(request);
     return ResponseEntity.noContent().build();
   }
