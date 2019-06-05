@@ -32,3 +32,6 @@ REGISTER_ENDPOINT= Endereço para acessar ms-register e consultar score. Ex: htt
 TWILIO_ACCOUNT_SID= Identificador da conta cadastrada no Twilo
 TWILIO_ACCOUNT_TOKEN= Token da conta cadastrada no Twilo
 TWILIO_ORIGIN_PHONE=Número origem disponibilizado pelo Twilo (Trial number)
+
+# Collection Postman
+https://www.getpostman.com/collections/1a0bc2e1c8903b5916c0
