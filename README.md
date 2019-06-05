@@ -3,7 +3,7 @@ Pagamento e antecipação de débitos relacionados
 a um cliente.
 
 # Build
-Para build do projeto são nacessárias as seguintes ferramentas:
+Para build do projeto são necessárias as seguintes ferramentas:
 
 * java 8
 * mvn > 3.3.9
@@ -34,11 +34,11 @@ DATABASE_PASSWORD= Senha de acesso ao banco de dados. Ex: apix2019
 
 REGISTER_ENDPOINT= Endereço para acessar ms-register e consultar score. Ex: http://localhost:4242/register/v1/registrations
 
-TWILIO_ACCOUNT_SID= Identificador da conta cadastrada no Twilo
+TWILIO_ACCOUNT_SID= Identificador da conta cadastrada no Twilio
 
-TWILIO_ACCOUNT_TOKEN= Token da conta cadastrada no Twilo
+TWILIO_ACCOUNT_TOKEN= Token da conta cadastrada no Twilio
 
-TWILIO_ORIGIN_PHONE=Número origem disponibilizado pelo Twilo (Trial number)
+TWILIO_ORIGIN_PHONE=Número origem disponibilizado pelo Twilio (Trial number)
 
 # Collection Postman
 https://www.getpostman.com/collections/1a0bc2e1c8903b5916c0
